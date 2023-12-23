@@ -1,0 +1,412 @@
+## Radiation and Energy Balance
+
+The energy of a photon ($E$) is a function of its wavelength ($\lambda$): $$E = h \frac{c}{\lambda}$$ where $h$ is Planck's constant ($h = 6.63 \times 10^{-34}$ J s) and $c$ is the speed of light ($c = 3 \times 10^8$ m s$^{-1}$). Plot the energy of a photon as a function of wavelength, ranging from 0.1 to 2.0 $\mu$m.
+
+```{r photon, exercise = TRUE, exercise.eval = FALSE}
+
+# constants
+h <- ___ # Planck's constant (J s)
+c <- ___ # speed of light (m s-1)
+
+# variable
+lambda <- ___ # wavelength (m)
+
+# function
+E <- ___
+
+# plot
+my.xlab <- "Wavelength ($mu$m)"
+my.ylab <- "Energy of a photon (J)"
+
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+par(mar = c(5,5,1,1))
+plot(x = lambda, y = E, type = "l", lty = 1, xlab = my.xlab, ylab = my.ylab)
+
+```
+
+```{r photon-solution}
+# constants
+h <- 6.63 * 10^(-34) # Planck's constant (J s)
+c <- 3 * 10^8 # speed of light (m s-1)
+
+# variable
+lambda <- seq(0.1,2,0.01) * 10^(-6) # wavelength (m)
+
+# function
+E <- h * c / lambda
+
+# plot
+my.xlab <- "Wavelength ($mu$m)"
+my.ylab <- "Energy of a photon (J)"
+
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+par(mar = c(5,5,1,1))
+plot(x = lambda, y = E, type = "l", lty = 1, xlab = my.xlab, ylab = my.ylab)
+
+```
+
+Planck's function of spectral irradiance is given as:
+
+$$ I(\lambda) = \frac{2 \pi h c^2}{\lambda^5}\frac{1}{\exp\left(  \frac{h c}{\lambda k_B T} \right)-1}$$ Plot this function for wavelengths ranging from 0 to 1 $\mu$m and for different temperatures between 3000 and 6000 Kelvin.
+
+```{r PlanckFunction, exercise = TRUE, exercise.eval = FALSE}
+# constants
+h <- ___ # Planck's constant (J s)
+kB <- ___ # Boltzmann constant (J K-1)
+c <- ___ # speed of light (m s-1)
+
+# variables
+T <- ___ # temperature (K)
+lambda <- ___ # wavelength (m)
+
+# Planck's function
+
+my.fun <- function(lambda, T){
+  I <- ___
+  return(I)
+}
+
+data <- outer(lambda, T, my.fun)
+
+my.xlab <- "Wavelength ($mu$m)"
+my.ylab <- "Spectral Irradiance (W m$^{-2} mu$m$^{-1}$)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+my.col <- rev(viridis::plasma(n = ncol(data)))
+
+par(mar = c(5,5,1,1))
+matplot(x = lambda * 10^6, y = data / 10^6, type = "l", lty = 1, col = my.col,
+        xlab = my.xlab, ylab = my.ylab)
+
+legend.text <- paste("T =", T, "K", sep = " ")
+legend("topright", legend = legend.text, pch = 16, col = my.col, bty = "n")
+
+```
+
+```{r PlanckFunction-solution}
+# constants
+h <- 6.63 * 10^(-34) # Planck's constant (J s)
+kB <- 1.38 * 10^(-23) # Boltzmann constant (J K-1)
+c <- 3 * 10^8 # speed of light (m s-1)
+
+# variables
+T <- seq(3000,6000, 500) # temperature (K)
+lambda <- seq(0,2,0.01) * 10^(-6) # wavelength (m)
+
+# Planck's function
+
+my.fun <- function(lambda, T){
+  termI <- 2 * pi * h * c^2 / lambda^5
+  termII <- exp(h * c / (lambda * kB * T)) - 1
+  I <- termI / termII
+  return(I)
+}
+
+data <- outer(lambda, T, my.fun)
+
+my.xlab <- "Wavelength ($mu$m)"
+my.ylab <- "Spectral Irradiance (W m$^{-2} mu$m$^{-1}$)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+my.col <- rev(viridis::plasma(n = ncol(data)))
+
+par(mar = c(5,5,1,1))
+matplot(x = lambda * 10^6, y = data / 10^6, type = "l", lty = 1, col = my.col,
+        xlab = my.xlab, ylab = my.ylab)
+
+legend.text <- paste("T =", T, "K", sep = " ")
+legend("topright", legend = legend.text, pch = 16, col = my.col, bty = "n")
+```
+
+Plot Wien's law for a temperature range of 100 to 6000 Kelvin.
+
+```{r WiensLaw, exercise = TRUE, exercise.eval = FALSE}
+
+T <- ___
+lambdaMax <- ___
+
+my.xlab <- "Temperature (K)"
+my.ylab <- "Wavelength ($mu$m)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+par(mar = c(5,5,1,1))
+plot(x = T, y = lambdaMax, type = "l", lty = 1, xlab = my.xlab, ylab = my.ylab)
+
+```
+
+```{r WiensLaw-solution}
+
+T <- seq(100,6000,1)
+lambdaMax <- 2897 / T
+
+my.xlab <- "Temperature (K)"
+my.ylab <- "Wavelength ($mu$m)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+par(mar = c(5,5,1,1))
+plot(x = T, y = lambdaMax, type = "l", lty = 1, xlab = my.xlab, ylab = my.ylab)
+```
+
+Using the Stefan-Boltzmann law, show how the power per area emitted by a body as a function of temperature, ranging from 100K to 6000K.
+
+```{r StefanBoltzmannLaw, exercise = TRUE, exercise.eval = FALSE}
+
+# constant
+sigma <- ___ # Stefan-Boltzmann constant (W m-2 K-4)
+
+# variable
+T <- seq(100,6000,1)
+
+# function
+
+E <- ___
+
+my.xlab <- "Temperature (K)"
+my.ylab <- "Irradiance (W m$^{-2}$)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+par(mar = c(5,5,1,1))
+plot(x = T, y = E, type = "l", lty = 1, xlab = my.xlab, ylab = my.ylab)
+
+```
+
+```{r StefanBoltzmannLaw-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+
+# variable
+T <- seq(100,6000,1)
+
+# function
+
+E <- sigma * T^4
+
+my.xlab <- "Temperature (K)"
+my.ylab <- "Irradiance (W m$^{-2}$)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+par(mar = c(5,5,1,1))
+plot(x = T, y = E, type = "l", lty = 1, xlab = my.xlab, ylab = my.ylab)
+```
+
+A sphere with a radius of 1m has temperature of 100$^{\circ}$C. How much power is it radiating?
+
+```{r powerSphere, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r powerSphere-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+radius <- 1 # radius of sphere (m)
+
+# variable
+T <- 100 + 273.15 # temperature (K)
+A <- 4 * pi * radius^2
+
+
+E <- sigma * T^4 # W m-2
+
+P <- A * E
+
+print(P)
+```
+
+```{r powerSphere-check}
+grade_result(
+  pass_if(~identical(round(.result), round(13814.23)))
+)
+```
+
+Consider two stars that have the spectra shown below.
+
+```{r twoStars}
+# constants
+h <- 6.63 * 10^(-34) # Planck's constant (J s)
+kB <- 1.38 * 10^(-23) # Boltzmann constant (J K-1)
+c <- 3 * 10^8 # speed of light (m s-1)
+
+# variables
+T <- c(5000, 7000) # temperature (K)
+lambda <- seq(0,3,0.01) * 10^(-6) # wavelength (m)
+
+# Planck's function
+
+my.fun <- function(lambda, T){
+  termI <- 2 * pi * h * c^2 / lambda^5
+  termII <- exp(h * c / (lambda * kB * T)) - 1
+  I <- termI / termII
+  return(I)
+}
+
+data <- outer(lambda, T, my.fun)
+
+my.xlab <- "Wavelength ($mu$m)"
+my.ylab <- "Spectral Irradiance (W m$^{-2} mu$m$^{-1}$)"
+my.xlab <- latex2exp::TeX(my.xlab)
+my.ylab <- latex2exp::TeX(my.ylab)
+
+my.col <- c("black", "red")
+
+par(mar = c(5,5,1,1))
+matplot(x = lambda * 10^6, y = data / 10^6, type = "l", lty = 1, col = my.col,
+        xlab = my.xlab, ylab = my.ylab)
+
+lambdaMax1 <- 2897 / T[1]
+lambdaMax2 <- 2897 / T[2]
+
+abline(v = lambdaMax1, col = my.col[1], lty = 2)
+abline(v = lambdaMax2, col = my.col[2], lty = 2)
+
+# legend.text <- paste("T =", T, "K", sep = " ")
+# legend("topright", legend = legend.text, pch = 16, col = my.col, bty = "n")
+```
+
+```{r starTemperature01, echo=FALSE}
+question_radio(
+  "What is the temperature of the star with the spectrum given by the red line?",
+  answer("5000K"),
+  answer("6000K"),
+  answer("7000K", correct = TRUE),
+  answer("8000K"),
+  allow_retry = TRUE
+)
+# lambda_max = 2897 m K / T (p. 42)
+```
+
+```{r tstarTemperature02, echo=FALSE}
+question_radio(
+  "What is the temperature of the star with the spectrum given by the black line?",
+  answer("5000K", correct = TRUE),
+  answer("6000K"),
+  answer("7000K"),
+  answer("8000K"),
+  allow_retry = TRUE
+)
+# lambda_max = 2897 m K / T (p. 42)
+```
+
+The surface of our sun has a mean temperature of about 5778K. The sun's radius is about 695,700 km. How much power is our sun radiating?
+
+```{r powerSun, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r powerSun-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+radius <- 6.957 * 10^8 # 7 * 10^8 # radius of sun (m)
+
+# variables
+T <- 5778 # temperature (K)
+A <- 4 * pi * radius^2
+
+# Stefan-Boltzmann Law
+E <- sigma * T^4 # (W m-2)
+
+# Total power
+P <- A * E # (W)
+
+print(P)
+```
+
+```{r powerSun-check}
+grade_result(
+  pass_if(~identical(round(.result/10^25), round(3.843679e+26/10^25)))
+)
+```
+
+The surface temperature of the sun is approximately 6000K. What is the characteristic wavelength of the sun expressed in meters?
+
+```{r wavelengthSun, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r wavelengthSun-solution}
+# variable
+T <- 5778 # temperature (K)
+lambda <- 2897 * 10^(-3) / T # (m)
+print(lambda)
+```
+
+```{r wavelengthSun-check}
+grade_result(
+  pass_if(~identical(round(.result,5), round(0.0005013846,5)))
+)
+```
+
+Imagine that the sun had a radius twice as large as it does at present, but the sun emitted the same total amount of energy. What temperature would the sun have to be?
+
+```{r temperatureSun, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r temperatureSun-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+radius <- 6.957 * 10^8 # radius of sun (m)
+
+# variable
+T1 <- 5778 # temperature (K)
+A <- 4 * pi * radius^2
+E <- sigma * T1^4 # W m-2
+P <- A * E # this is the power with the actual sun radius
+
+# variable
+denominator <- sigma * 4 * pi * (2 * radius)^2
+T <- (P / denominator)^(1/4)
+print(T)
+```
+
+```{r temperatureSun-check}
+grade_result(
+  pass_if(~identical(round(.result), round(4085.663)))
+)
+```
+
+Calculate the solar constant. Assume that the sun's radius equals 6.957 $\times$ 10$^8$ m and the temperature of the photosphere equals 5778K.
+
+```{r solarConstant, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r solarConstant-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+radius <- 6.957 * 10^8 # radius of sun (m)
+
+# variables
+T <- 5778 # temperature (K)
+A <- 4 * pi * radius^2
+
+# Stefan-Boltzmann Law
+E <- sigma * T^4 # (W m-2)
+
+# Total power
+P <- A * E # (W)
+
+# Earth-sun distance
+earth_sun_distance <- 1.496 * 10^11 # (m)
+
+A2 <- 4 * pi * earth_sun_distance^2
+
+S <- P / A2 # W m-2
+
+print(S)
+```
+
+```{r solarConstant-check}
+grade_result(
+  pass_if(~identical(round(.result), round(1366.703)))
+)
+```

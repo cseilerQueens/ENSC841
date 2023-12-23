@@ -1,0 +1,273 @@
+## The Carbon Cycle
+### Exercise (1)
+* Make a 2-box model that simulates the exchange of carbon between the atmosphere the biosphere. For the inital time step, put all the carbon into the atmosphere and run the model until it reaches equilibrium. Use the following reference for building your model: Avenhaus, R., S. Fenyi, and H. Frick. 1979. “Box Models for the CO2 Cycle of the Earth.” Environment International 2 (4): 379–85.
+
+```{r 2boxModel, exercise = TRUE, exercise.eval = FALSE}
+
+# Reference: 
+# Sawyer, J. S. 1972. “Man-Made Carbon Dioxide and the ‘Greenhouse’ Effect.” Nature 239 (5366): 23–26.
+
+# Install and load the deSolve package
+# install.packages("deSolve")
+library(deSolve)
+
+# Define the box model function
+carbon_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    # Parameters
+    k_ab <- 1/33  # Transfer rate from atmosphere to biosphere measured in yr-1
+    k_ba <- 1/40 # Transfer rate from biosphere to atmosphere measured in yr-1
+    
+    # ODEs: Flux = sources minus sinks
+    dA_dt <- ___
+    dB_dt <- ___
+
+    # Return the derivatives
+    return(list(c(dA_dt, dB_dt)))
+  })
+}
+
+# Initial state
+Af <- 1
+Bf <- 1.2 * Af
+
+# Let's put all the carbon into the atmosphere
+A <- Af + Bf
+B <- 0
+
+initial_state <- c(A = A, B = B)
+
+# Time points for simulation
+times <- seq(0, 150, by = 0.1)
+
+# Parameters (not used in this simple example)
+parameters <- list()
+
+# Solve the ODEs
+output <- ode(y = initial_state, times = times, func = carbon_model, parms = parameters)
+
+output <- data.frame(output)
+
+# Plot the results
+matplot(output$time, output[, c("A", "B")], type = "l", lty = 1, col = c("blue", "green"),
+        xlab = "Time", ylab = "Carbon Amount",
+        main = "Carbon Exchange between Atmosphere and Biosphere")
+
+legend("topright", legend = c("Atmosphere", "Biosphere"), col = c("blue", "green"), lty = 1, bty = "n")
+
+```
+
+```{r 2boxModel-solution}
+
+# Reference: 
+# Sawyer, J. S. 1972. “Man-Made Carbon Dioxide and the ‘Greenhouse’ Effect.” Nature 239 (5366): 23–26.
+
+# Install and load the deSolve package
+# install.packages("deSolve")
+library(deSolve)
+
+# Define the box model function
+carbon_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    # Parameters
+    k_ab <- 1/33  # Transfer rate from atmosphere to biosphere measured in yr-1
+    k_ba <- 1/40 # Transfer rate from biosphere to atmosphere measured in yr-1
+    
+    # ODEs: Flux = sources minus sinks
+    dA_dt <- k_ba * B - k_ab * A
+    dB_dt <- k_ab * A - k_ba * B
+
+    # Return the derivatives
+    return(list(c(dA_dt, dB_dt)))
+  })
+}
+
+# Initial state
+Af <- 1
+Bf <- 1.2 * Af
+
+# Let's put all the carbon into the atmosphere
+A <- Af + Bf
+B <- 0
+
+initial_state <- c(A = A, B = B)
+
+# Time points for simulation
+times <- seq(0, 150, by = 0.1)
+
+# Parameters (not used in this simple example)
+parameters <- list()
+
+# Solve the ODEs
+output <- ode(y = initial_state, times = times, func = carbon_model, parms = parameters)
+
+output <- data.frame(output)
+
+# Plot the results
+matplot(output$time, output[, c("A", "B")], type = "l", lty = 1, col = c("blue", "green"),
+        xlab = "Time", ylab = "Carbon Amount",
+        main = "Carbon Exchange between Atmosphere and Biosphere")
+
+legend("topright", legend = c("Atmosphere", "Biosphere"), col = c("blue", "green"), lty = 1, bty = "n")
+
+```
+
+### Exercise (2)
+
+* Extend the model you built above by adding two additional pools, one for the ocean mixed layer and one for the ocean deep layer.
+
+```{r 4boxModel, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r 4boxModel-solution}
+
+# Reference: 
+# Sawyer, J. S. 1972. “Man-Made Carbon Dioxide and the ‘Greenhouse’ Effect.” Nature 239 (5366): 23–26.
+
+# Install and load the deSolve package
+# install.packages("deSolve")
+library(deSolve)
+
+# Define the box model function
+carbon_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    # Parameters
+    k_ab <- 1/33  # Transfer rate from atmosphere to biosphere measured in yr-1
+    k_ba <- 1/40 # Transfer rate from biosphere to atmosphere measured in yr-1
+    k_am <- 1/5 
+    k_ma <- 1/6
+    k_md <- 1/4
+    k_dm <- 1/300
+    
+    # ODEs: Flux = sources minus sinks
+    dA_dt <- k_ba * B + k_ma * M - k_ab * A - k_am * A
+    dB_dt <- k_ab * A - k_ba * B
+    dM_dt <- k_am * A + k_dm * D - k_ma * M - k_md * M
+    dD_dt <- k_md * M - k_dm * D
+
+    # Return the derivatives
+    return(list(c(dA_dt, dB_dt, dM_dt, dD_dt)))
+  })
+}
+
+# Initial state
+
+# The pool size is estimated by Craig
+
+Af <- 1 
+Bf <- 1.2 * Af
+Mf <- 1.2 * Af
+Df <- 58 * Af
+
+A <- Af + Bf + Mf + Df
+B <- 0
+M <- 0
+D <- 0
+
+initial_state <- c(A = A, B = B, M = M, D = D)
+
+# Time points for simulation
+times <- seq(0, 300, by = 0.1)
+
+# Parameters (not used in this simple example)
+parameters <- list()
+
+# Solve the ODEs
+output <- ode(y = initial_state, times = times, func = carbon_model, parms = parameters)
+
+output <- data.frame(output)
+
+# Plot the results
+matplot(output$time, output[, c("A", "B", "M", "D")], type = "l", lty = 1, col = c("blue", "green", "magenta", "black"),
+        xlab = "Time", ylab = "Carbon Amount",
+        main = "Carbon Exchange between Atmosphere, Biosphere, and Ocean")
+
+legend("right", legend = c("Atmosphere", "Biosphere", "Ocean Mixed Layer", "Ocean Deep Layer"), col = c("blue", "green", "magenta", "black"), lty = 1, bty = "n")
+
+```
+
+### Exercise (3)
+* Next, run the same model, but adding fossil fuel emissions.
+
+```{r 4boxModelwithFossilFuelEmissions, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+
+```{r 4boxModelwithFossilFuelEmissions-solution}
+
+# Reference: 
+# Sawyer, J. S. 1972. “Man-Made Carbon Dioxide and the ‘Greenhouse’ Effect.” Nature 239 (5366): 23–26.
+
+# Install and load the deSolve package
+# install.packages("deSolve")
+library(deSolve)
+
+# Define the box model function
+carbon_model <- function(time, state, parameters) {
+  with(as.list(c(state, parameters)), {
+    
+    # Parameters
+    k_ab <- 1/33  # Transfer rate from atmosphere to biosphere measured in yr-1
+    k_ba <- 1/40 # Transfer rate from biosphere to atmosphere measured in yr-1
+    k_am <- 1/5 
+    k_ma <- 1/6
+    k_md <- 1/4
+    k_dm <- 1/300
+    
+    # ODEs: Flux = sources minus sinks
+    dA_dt <- k_ba * B + k_ma * M - k_ab * A - k_am * A + N
+    dB_dt <- k_ab * A - k_ba * B
+    dM_dt <- k_am * A + k_dm * D - k_ma * M - k_md * M
+    dD_dt <- k_md * M - k_dm * D
+
+    # Return the derivatives
+    return(list(c(dA_dt, dB_dt, dM_dt, dD_dt)))
+  })
+}
+
+# Initial state
+
+# Convert current annual emissions from Gt to mol
+emissions <- 36.8 # current CO2 emissions:Gt
+emissions <- emissions * 10^9 * 10^6 # g CO2
+molarMassCO2 <- 44.01 # g/mol
+emissions <- emissions / molarMassCO2
+
+N <- emissions
+
+N <- 0
+
+A <- 51 * 10^15
+B <- 62.2 * 10^15
+M <- 61.7 * 10^15
+D <- 2985.4 * 10^15
+
+
+A + B + M + D
+
+initial_state <- c(A = A, B = B, M = M, D = D)
+
+# Time points for simulation
+times <- seq(0, 1000, by = 1)
+
+# Parameters (not used in this simple example)
+parameters <- list()
+
+# Solve the ODEs
+output <- ode(y = initial_state, times = times, func = carbon_model, parms = parameters)
+
+output <- data.frame(output)
+
+# Plot the results
+matplot(output$time, output[, c("A", "B", "M", "D")], type = "l", lty = 1, col = c("blue", "green", "magenta", "black"),
+        xlab = "Time", ylab = "Carbon Amount",
+        main = "Carbon Exchange between Atmosphere, Biosphere, and Ocean")
+
+legend("right", legend = c("Atmosphere", "Biosphere", "Ocean Mixed Layer", "Ocean Deep Layer"), col = c("blue", "green", "magenta", "black"), lty = 1, bty = "n")
+
+```

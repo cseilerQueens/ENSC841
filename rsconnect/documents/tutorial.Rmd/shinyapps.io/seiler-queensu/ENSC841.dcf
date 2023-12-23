@@ -1,0 +1,13 @@
+name: ENSC841
+title: ENSC841
+username:
+account: seiler-queensu
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10840683
+bundleId: 8077352
+url: https://seiler-queensu.shinyapps.io/ENSC841/
+when: 1703277232.25865
+lastSyncTime: 1703277232.25866
+asMultiple: FALSE
+asStatic: FALSE
