@@ -326,7 +326,7 @@ grade_result(
 )
 ```
 
-The surface temperature of the sun is approximately 6000K. What is the characteristic wavelength of the sun expressed in meters?
+The surface temperature of the sun is approximately 6000K. What is the characteristic wavelength of the sun expressed in micro meters?
 
 ```{r wavelengthSun, exercise = TRUE, exercise.eval = FALSE}
 
@@ -335,13 +335,14 @@ The surface temperature of the sun is approximately 6000K. What is the character
 ```{r wavelengthSun-solution}
 # variable
 T <- 5778 # temperature (K)
-lambda <- 2897 * 10^(-3) / T # (m)
+lambda <- 2.897 * 10^(-3) / T # (m)
+lambda <- lambda * 10^6 # (micro meters)
 print(lambda)
 ```
 
 ```{r wavelengthSun-check}
 grade_result(
-  pass_if(~identical(round(.result,5), round(0.0005013846,5)))
+  pass_if(~identical(round(.result,1), round(0.5013846,1)))
 )
 ```
 
@@ -410,3 +411,69 @@ grade_result(
   pass_if(~identical(round(.result), round(1366.703)))
 )
 ```
+
+Estimate the earth's surface temperature using the n-layer model and the following inputs: solar constant: 1360 W m^-2^, planetary albedo = 0.3 (-), n = 0.65.
+
+```{r nLayer, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r nLayer-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+S <- 1360 # Solar constant (W m-2)
+alpha <- 0.3 # planetary albedo (-)
+n <- 0.65
+
+# Equation 4.5, p. 62
+num <- (n + 1) * S * (1 - alpha)
+denom <- 4 * sigma
+
+T <- (num / denom)^0.25 #surface temperature (K)
+
+print(T)
+```
+
+```{r nLayer-check}
+grade_result(
+  pass_if(~identical(round(.result), round(288.4825)))
+)
+```
+
+Using the same data as in the exercise above, calculate the impact of the natural greenhouse gas effect on the earth's surface temperature.
+
+```{r naturalGHG, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r naturalGHG-solution}
+# constant
+sigma <- 5.67 * 10^(-8) # Stefan-Boltzmann constant (W m-2 K-4)
+S <- 1360 # Solar constant (W m-2)
+alpha <- 0.3 # planetary albedo (-)
+
+# temperature without GHG (Equation 4.5, p. 62)
+n <- 0
+num <- (n + 1) * S * (1 - alpha)
+denom <- 4 * sigma
+T1 <- (num / denom)^0.25 #surface temperature (K)
+
+
+# temperature with GHG (Equation 4.5, p. 62)
+n <- 0.65
+num <- (n + 1) * S * (1 - alpha)
+denom <- 4 * sigma
+T2 <- (num / denom)^0.25 #surface temperature (K)
+
+# Difference
+deltaT <- T2 - T1
+
+print(deltaT)
+```
+
+```{r naturalGHG-check}
+grade_result(
+  pass_if(~identical(round(.result), round(33.94693)))
+)
+```
+

@@ -1,0 +1,58 @@
+## Climate Change Science and Policy
+
+Welcome to Climate Change Science and Policy - ENSC 841. In December 2015, 195 countries and the European Union adopted the Paris Agreement, a legally binding international treaty designed to limit global warming to well below 2$^\circ$C, preferably to 1.5$^\circ$C, compared to pre-industrial levels. This historic milestone marks a global effort to avert extreme climate change. But how did we reach this point in the first place? This course covers the journey from the pioneering studies on the greenhouse effect first published in the 1800s to the adoption of the Paris Agreement almost two centuries later. The first part of the course focuses on climate change science, encompassing the empirical evidence, climate modelling, the global carbon cycle, climate feedbacks, tipping points, future projections, and impacts. The second part of the course addresses the economics and policy options to tackle climate change. The course will support you in a wide range of contexts, from your research endeavours to effective engagement in public debates and advocacy for sustainable solutions. For more information, please download the [syllabus](https://drive.google.com/file/d/1vUuUg12YwXrV9h7bQcze_E3fofkN1ZZK/view?usp=sharing), explore the [tutorials](https://seiler-queensu.shinyapps.io/ENSC841/), and have a look at the slides that can be downloaded from the links in the table below.
+
+### Schedule and slides
+
+The following Table provides an overview of the topic and reading assignments for each class. Each class consists of a lecture, in-class exercises, and discussions. The textbook refers to Dessler, A.E., 2021. Introduction to modern climate change. Cambridge University Press. The book is available at Queen's University bookstore. The supporting literature are listed in the syllabus.
+
+|Week | Date | Topic | Textbook | Supporting Lit.| 
+|:-|:---|:--------|:---|:---|
+|1 | Tue, Jan 9 | [Empirical Evidence](https://drive.google.com/file/d/1BjMNCDhA8oerO4PdTHx2ML7LtJOl5dyb/view?usp=sharing) | Ch. 1, 2 | - |
+|2 | Tue, Jan 16 | [Radiation and Energy Balance](https://drive.google.com/file/d/17t3eTh9kdXogQD39GhlrQkQzAuRTtjSc/view?usp=sharing) | Ch. 3, 4 | - |
+|3 | Tue, Jan 23 | [Global Carbon Cycle](https://drive.google.com/file/d/1Pk4hXrb4RYqAT-r_E2-NO0QgjglvPbPU/view?usp=sharing) | Ch. 5 | - |
+|4 | Tue, Jan 30 | Forcing, Feedbacks, and Climate Sensitivity | Ch. 6 | - |
+|5 | Tue, Feb 6 | Past Changes and Future Projections | Ch. 7, 8 | - |
+|6 | Tue, Feb 13 | Climate Change Impacts | Ch. 9, 10 | AR6-WGI-SPM |
+|7 | Tue, Feb 20 | Reading Week | - | - |
+|8 | Tue, Feb 27 | Mid-term exam | - | - |
+|9 | Tue, Mar 5 | Adaptation and Mitigation Policies | Ch. 11, 12 | AR6-WGII/III-SPM |
+|10 | Tue, Mar 12 | Climate Science and Policy History | Ch. 13 | Charney Report | 
+|11 | Tue, Mar 19 | Paris Agreement: Part I | - | Klein, Part I, Ch. 2, 3 |
+|12 | Tue, Mar 26 | Paris Agreement: Part II | - | Klein, Part I, Ch. 4, 5 |
+|13 | Tue, Apr 2 | Current state of affairs | - | Gap Reports|
+
+
+### Exercises
+
+You can explore an online version of the exercises [here](https://seiler-queensu.shinyapps.io/ENSC841/). This online version is for demonstration purposes only. To access the tutorials in class, please follow the steps below.
+
+* Install R from [here](https://posit.co/download/rstudio-desktop/) (If you already have R installed on you computer, please make sure it is the most recent version)
+* Install RStudio from [here](https://posit.co/download/rstudio-desktop/) (Note that R and RStudio are two different things. You need to install both, and both must be the most recent version)
+* Start RStudio and install the following packages by typing the lines below into the RStudio console:
+
+```{r, echo = TRUE, eval=FALSE}
+install.packages("shiny")
+install.packages("latex2exp")
+install.packages("viridis")
+install.packages("magick")
+install.packages("pdftools")
+install.packages("latex2exp")
+install.packages("deSolve")
+install.packages("sortable")
+install.packages("tinytex")
+tinytex::install_tinytex()
+
+install.packages("learnr")
+install.packages("gradethis")
+# if gradethis does not install, try:
+# install.packages("remotes")
+# remotes::install_github("rstudio/gradethis", force = TRUE)
+```
+
+* Go to the [ENSC 841 exercise repository](https://github.com/cseilerQueens/ENSC841)
+* Click on the green "code" button and then hit the "Download ZIP" button. This will download the repository into your download folder
+* Go to your download folder and move the downloaded zip file to your folder of choice
+* Unzip the file and open "tutorial.Rmd" file in RStudio
+* Hit the "Run Document" button
+* If all went well, a new window opens with your tutorial
