@@ -1,0 +1,326 @@
+## Climate Sensitivity
+
+
+### Exercise (1)
+
+The Earth usually receives about 238 W m^–2^ from the sun. The Canadian Space Agency has detected that the sun has instantaneously brightened by 1 percent. The government has contacted you to estimate how the global mean surface temperature will change in response. Address the government's request by answering the questions below. 
+
+* What is the corresponding radiative forcing associated with a 1% increase in solar luminosity?
+
+```{r luminosityIncrease, exercise = TRUE, exercise.eval = FALSE}
+```
+
+```{r}
+# Solar energy absorbed per area (W m-2)
+E_in <- 238
+RF <- E_in * 0.01
+# print(RF)
+```
+
+```{r luminosityIncrease-check}
+grade_result(
+  pass_if(~identical(round(.result,1), round(2.38,1)))
+)
+```
+
+* How much warming would this radiative forcing cause?
+
+```{r warming, exercise = TRUE, exercise.eval = FALSE}
+```
+
+```{r}
+climSens <- 0.75 # K per (1 W m–2)
+warming <- 2.38 * 0.75 # (K)
+# print(warming)
+```
+
+```{r warming-check}
+grade_result(
+  pass_if(~identical(round(.result,3), round(1.785,3)))
+)
+```
+
+* How fast would the earth warm? Express your answer in K per century. Consider the large heat capacity of our climate system, which is about 6 $\times$ 10^24^ J K^-1^.
+
+```{r warmingRate, exercise = TRUE, exercise.eval = FALSE}
+```
+
+```{r}
+
+RF <- 2.38 # (W m-2 = J s-1 m-2)
+cp <- 6 * 10^(24) # J K-1
+
+# Integrate RF across globe (W = J s-1)
+r <- 6371000 # earth radius (m)
+A <- 4 * pi * r^2
+energy <- RF * A # W = J s-1
+warming <- energy / cp # K s-1
+warming100yrs <- warming * (86400 * 365.25 * 100) # K per century
+# print(warming100yrs)
+```
+
+```{r warmingRate-check}
+grade_result(
+  pass_if(~identical(round(.result,1), round(0.638491,1)))
+)
+```
+
+### Exercise (2)
+
+Imagine a planet with a simple biosphere that consists of two species of daisy flowers. One species is white, while the other is black. The growth rate of the daisies depends only on temperature, where black daisies prefer colder temperatures, while white daisies prefer warm temperatures. James Lovelock and Andrew Watson developed a mathematical model referred to as Daisyworld that illustrates how the relation solar luminosity and global mean temperature is affected by the two daisy species [(Watson and Lovelock, 1983)](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1600-0889.1983.tb00031.x).
+
+* Read the abstract of the paper
+* Run daisyworld by hitting the run code button below ([source code](https://github.com/RobinHankin/daisyworld))
+* Explain the relationship between solar luminosity and surface temperature
+* Daisyworld depends on a number of parameter values. Change the albedo values in a way that reduces the stability of global mean surface temperature
+
+```{r usedaisy, exercise = TRUE, exercise.eval = FALSE}
+
+parameters <- list(
+  L  = 1,  # solar luminosity
+  gamma = 0.3, # death rate
+  parabolic = 0.003265,
+  T_opt = 22.5,
+  S     = 917, # SI!  In fig 1, W&L use ergs/cm^2s FFS
+  sigma = 5.670374419e-8, # stefan's constant: SI
+  triple_point = 273, # actually 273.15
+  Ag = 0.50, # albedo of ground
+  Aw = 0.75, # albedo of white daisies
+  Ab = 0.25, # albedo of black daisies
+  q = NA, 
+  qdash = 20,    # caption in figure 1
+  p = 1.0  # proportion of fertile ground, fig 1
+  
+)
+
+L <- seq(from=0.6,to=2,by=0.02)
+M <- matrix(0,length(L),4)
+
+for(i in seq_along(L)){
+  M[i,] <- daisy(parameters,L=L[i])
+}
+colnames(M) <- c("L","W","B","T_e")
+
+plot(T_e~L,data=M, type='l', col = "blue", xlab = "Solar Luminosity (-)", ylab = "Temperature (C)")
+plot(W~L,data=M, type='l', col = "green", xlab = "Solar Luminosity (-)", ylab = "Area (%)")
+lines(B~L, data=M, type='l', col = "black")
+legend("topright", c("White Daisies", "Black Daisies"), col = c("green", "black"), pch = 16, bty = "n")
+
+```
+
+### Exercise (3)
+
+This exercise illustrates the concepts of equilibrium points and stability. Consider the following growth model: $$ \frac{dN}{dt} = r_i \times N \times \left( 1 - \frac{N}{K} \right) - q \times \frac{N}{N + k_s}$$ The first term expresses the growth of a species, while the second term represents the mortality. N is the species density, r~i~ is the rate of increase, K is the carrying capacity, q is the harvesting rate, and k~s~ is the half-saturation density (r~i~ = 0.05, K = 10, q = 0.1, k~s~ = 0.1). We can can solve this ordinary differential equation to plot how specie density changes in time. To do this, we must define the initial number of species (N). 
+
+* Setting N = 4 yields:
+
+```{r}
+# Install and load the deSolve package
+
+library(deSolve)
+
+# Define the ODE function
+ode_function <- function(t, N, parameters) {
+  with(as.list(c(parameters, N)), {
+    dNdt <- ri * N * (1 - N / K) - q * N / (N + ks)
+    return(list(dNdt))
+  })
+}
+
+# Set up parameter values and initial conditions
+parameters <- c(ri = 0.05, K = 10, q = 0.1, ks = 0.1)
+initial_conditions <- c(N = 4)
+
+# Set up time points for integration
+time_points <- seq(0, 500, by = 1)
+
+# Use the ode function to solve the ODE
+solution <- ode(y = initial_conditions, times = time_points, func = ode_function, parms = parameters)
+
+# Plot the solution
+plot(solution, type = "l", xlab = "Time", ylab = "N", main = NA)
+
+```
+
+* Setting N = 2 yields:
+
+```{r}
+# Install and load the deSolve package
+
+library(deSolve)
+
+# Define the ODE function
+ode_function <- function(t, N, parameters) {
+  with(as.list(c(parameters, N)), {
+    dNdt <- ri * N * (1 - N / K) - q * N / (N + ks)
+    return(list(dNdt))
+  })
+}
+
+# Set up parameter values and initial conditions
+parameters <- c(ri = 0.05, K = 10, q = 0.1, ks = 0.1)
+initial_conditions <- c(N = 2)
+
+# Set up time points for integration
+time_points <- seq(0, 500, by = 1)
+
+# Use the ode function to solve the ODE
+solution <- ode(y = initial_conditions, times = time_points, func = ode_function, parms = parameters)
+
+# Plot the solution
+plot(solution, type = "l", xlab = "Time", ylab = "N", main = NA)
+
+```
+
+You see that the steady state depends on the initial value of N. Find out how many equilibria the growth model has, and whether they are stable or unstable. You can do this graphically by plotting the change of N (dN/dt) (y-axis) for different values of N ranging from 1 to 8 (x-axis). As parameter values, choose r~i~ = 0.05, K = 10, q = 0.1, and k~s~ = 0.1.
+
+
+```{r equilibria, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r equilibria-solution}
+ri <- 0.05
+K <- 10
+q <- 0.1
+ks <- 0.1
+
+N <- seq(0,10,0.1)
+
+dNdt <- ri * N * (1 - N/K) - q * N / (N + ks)
+
+plot(x = N, y = dNdt, type = "l")
+abline(h=0, lty = 2)
+```
+
+* Identify the equilibrium points
+* Are they stable or unstable?
+* What equilibrium value do you get when setting N = 9? 
+* Test your answer by changing ```initial_conditions <- c(N = 2)``` to ```initial_conditions <- c(N = 9)``` in the code below. 
+
+```{r equilibriumPoints, exercise = TRUE, exercise.eval = FALSE}
+
+library(deSolve)
+
+# Define the ODE function
+ode_function <- function(t, N, parameters) {
+  with(as.list(c(parameters, N)), {
+    dNdt <- ri * N * (1 - N / K) - q * N / (N + ks)
+    return(list(dNdt))
+  })
+}
+
+# Set up parameter values and initial conditions
+parameters <- c(ri = 0.05, K = 10, q = 0.1, ks = 0.1)
+initial_conditions <- c(N = 2)
+
+# Set up time points for integration
+time_points <- seq(0, 500, by = 1)
+
+# Use the ode function to solve the ODE
+solution <- ode(y = initial_conditions, times = time_points, func = ode_function, parms = parameters)
+
+# Plot the solution
+plot(solution, type = "l", xlab = "Time", ylab = "N", main = NA)
+
+```
+
+* Run the code above for different N values to see whether you end up at the equilibrium value that you are expecting.
+
+### Exercise (4)
+
+This exercise illustrates the concept of bifurcation. We will stick with our growth model defined above, but we are going to change the value of one of the parameters. Use your code from the exercise above where you plot the change of N (dN/dt) (y-axis) for different values of N ranging from 1 to 10 (x-axis). Now plot the results for different values of r~i~, ranging from 0.01 to 0.15. How do the equilibria change?
+
+```{r manyEquilibria, exercise = TRUE, exercise.eval = FALSE}
+
+K <- 10
+q <- 0.1
+ks <- 0.1
+
+N <- seq(0, 10, 0.1)
+ri <- seq(0.01, 0.15, 0.01)
+
+my.fun <- function(N, ri){
+  dNdt <- ___
+  return(dNdt)
+}
+
+data <- outer(N, ri, my.fun)
+
+my.col <- rev(viridis::plasma(n = ncol(data)))
+
+par(mar = c(5,5,1,1))
+matplot(x = N, y = data, type = "l", lty = 1, col = my.col, xlab = "N", ylab = "dN/dt")
+
+abline(h = 0)
+```
+
+
+```{r manyEquilibria-solution}
+
+K <- 10
+q <- 0.1
+ks <- 0.1
+
+N <- seq(0, 10, 0.1)
+ri <- seq(0.01, 0.15, 0.01)
+
+my.fun <- function(N, ri){
+  dNdt <- ri * N * (1 - N/K) - q * N / (N + ks)
+  return(dNdt)
+}
+
+data <- outer(N, ri, my.fun)
+
+my.col <- rev(viridis::plasma(n = ncol(data)))
+
+par(mar = c(5,5,1,1))
+matplot(x = N, y = data, type = "l", lty = 1, col = my.col, xlab = "N", ylab = "dN/dt")
+
+abline(h = 0)
+```
+
+### Additional exercises
+
+The final temperature response to an initial warming can be expressed as $\Delta T_f = \frac{\Delta T_i}{(1-g)}$. Plot the final temperature response as a function of the feedback strength g. Judging from your plot, how large does g need to be in order to reach a final temperature response of 3 K?
+
+```{r feedbackStrength, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+```{r feedbackStrength-solution, fig.width = 5, fig.height = 4}
+
+dTi <- 1.1 # K
+g <- seq(-0.8, 0.8, 0.01)
+dTf <- dTi / (1-g)
+
+my.ylab <-  latex2exp::TeX("$Delta T_f$ (K)")
+plot(g, dTf, type = "l", xlab = "g (-)", ylab = my.ylab, las = 1)
+legend("topleft", paste("Initial warming = ", dTi, "K", sep = " "), bty = "n")
+abline(h = 3, lty = 2)
+abline(v = 0.63, lty = 2)
+```
+
+The radiative forcing in response to atmospheric CO~2~ concentration can be estimated as follows: $RF = 5.35 \text{ W m}^{-2}\times \ln(C/C_0)$. Plot this function and show what the radiative forcing is for doubling the preindustrial CO~2~ concentration. 
+
+```{r radiativeForcing, exercise = TRUE, exercise.eval = FALSE}
+
+```
+
+
+```{r radiativeForcing-solution, fig.width = 5, fig.height = 4}
+
+C0 <- 280
+C <- seq(280, 1000, 1)
+A <- 5.35 # W m-2
+
+RF <- A * log(C/C0)
+
+my.ylab <-  latex2exp::TeX("Radiative Forcing (W m$^{-2}$)")
+my.xlab <-  latex2exp::TeX("Atmospheric CO$_2$ concentration (ppmv)")
+
+par(mar = c(5,5,1,1))
+plot(C, RF, type = "l", las = 1, xlab = my.xlab, ylab = my.ylab)
+abline(h = 3.7, lty = 2)
+abline(v = 560, lty = 2)
+```

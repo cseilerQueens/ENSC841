@@ -5,9 +5,9 @@ account: seiler-queensu
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10840683
-bundleId: 8088133
+bundleId: 8115580
 url: https://seiler-queensu.shinyapps.io/ENSC841/
-when: 1703709001.30887
-lastSyncTime: 1703709001.30889
+when: 1704567587.19775
+lastSyncTime: 1704567587.19776
 asMultiple: FALSE
 asStatic: FALSE

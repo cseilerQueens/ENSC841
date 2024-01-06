@@ -14,6 +14,8 @@ library(magick)
 library(pdftools)
 library(latex2exp)
 
+source("daisyworld.R")
+
 gradethis::gradethis_setup()
 knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.timelimit = 60)
@@ -26,4 +28,7 @@ tutorial_options(exercise.timelimit = 60)
 ```
 
 ```{r child = 'Ch05.Rmd'}
+```
+
+```{r child = 'Ch06.Rmd'}
 ```

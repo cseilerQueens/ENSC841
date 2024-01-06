@@ -11,7 +11,7 @@ The following Table provides an overview of the topic and reading assignments fo
 |1 | Tue, Jan 9 | [Empirical Evidence](https://drive.google.com/file/d/1BjMNCDhA8oerO4PdTHx2ML7LtJOl5dyb/view?usp=sharing) | Ch. 1, 2 | - |
 |2 | Tue, Jan 16 | [Radiation and Energy Balance](https://drive.google.com/file/d/17t3eTh9kdXogQD39GhlrQkQzAuRTtjSc/view?usp=sharing) | Ch. 3, 4 | - |
 |3 | Tue, Jan 23 | [Global Carbon Cycle](https://drive.google.com/file/d/1Pk4hXrb4RYqAT-r_E2-NO0QgjglvPbPU/view?usp=sharing) | Ch. 5 | - |
-|4 | Tue, Jan 30 | Forcing, Feedbacks, and Climate Sensitivity | Ch. 6 | - |
+|4 | Tue, Jan 30 | [Forcing, Feedbacks, and Climate Sensitivity](https://drive.google.com/file/d/19T_-KRQO0flkNyZzVGzd6aoND1no6IOG/view?usp=sharing) | Ch. 6 | - |
 |5 | Tue, Feb 6 | Past Changes and Future Projections | Ch. 7, 8 | - |
 |6 | Tue, Feb 13 | Climate Change Impacts | Ch. 9, 10 | AR6-WGI-SPM |
 |7 | Tue, Feb 20 | Reading Week | - | - |
@@ -29,7 +29,7 @@ You can explore an online version of the exercises [here](https://seiler-queensu
 
 * Install R from [here](https://posit.co/download/rstudio-desktop/) (If you already have R installed on you computer, please make sure it is the most recent version)
 * Install RStudio from [here](https://posit.co/download/rstudio-desktop/) (Note that R and RStudio are two different things. You need to install both, and both must be the most recent version)
-* Start RStudio and install the following packages by typing the lines below into the RStudio console:
+* Start RStudio and install the following packages by typing the lines below into the RStudio console (copy-paste line by line).
 
 ```{r, echo = TRUE, eval=FALSE}
 install.packages("shiny")
@@ -50,9 +50,22 @@ install.packages("gradethis")
 # remotes::install_github("rstudio/gradethis", force = TRUE)
 ```
 
-* Go to the [ENSC 841 exercise repository](https://github.com/cseilerQueens/ENSC841)
+* Next, install git. For windows, go [here](https://git-scm.com/download/win). For Mac, open your terminal, type ```git --version``` and follow the instructions.
+* Once git is installed, open a terminal (Powershell on windows), and go to a directory where you want to install the tutorials. Make sure your directory does not contain spaces or apostrophes. Next, clone the tutorial using git 
+```
+git clone https://github.com/cseilerQueens/ENSC841.git
+```
+* Open your file manager and go to the folder 
+* Open the ```tutorial.Rmd``` file in RStudio
+* Hit the ```Run Document``` button
+* If all went well, a new window opens with your tutorial
+* I will be updating the tutorial as the course progresses. To keep your tutorial up-to-date, delete the folder and clone again
+
+### Work-around
+* If you have problems with git, you can also download the tutorial from [here](https://github.com/cseilerQueens/ENSC841), instead
 * Click on the green "code" button and then hit the "Download ZIP" button. This will download the repository into your download folder
 * Go to your download folder and move the downloaded zip file to your folder of choice
-* Unzip the file and open "tutorial.Rmd" file in RStudio
-* Hit the "Run Document" button
+* Unzip the file and open ```tutorial.Rmd``` file in RStudio
+* Hit the ```Run Document``` button
 * If all went well, a new window opens with your tutorial
+* You would need to repeat this each time I update the tutorial, so using git as described above is more practical
