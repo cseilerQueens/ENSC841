@@ -38,7 +38,7 @@ question("Which statement is correct? Select all that apply",
 
 ### Exercise (1)
 
-* The government has invited you to give a brief presentation assessing whether the current and projected future atmospheric CO~2~ concentrations have historical precedents in Earth's past. Prepare your presentation by following the steps below.
+The government has invited you to give a brief presentation assessing whether the current and projected future atmospheric CO~2~ concentrations have historical precedents in Earth's past. Prepare your presentation by following the steps below.
 
 * Download paleoclimate data of atmospheric CO~2~ concentration from [here](https://www.annualreviews.org/doi/suppl/10.1146/annurev-earth-082420-063026) (Download Supplemental Data 1 (XLSX))
 * Open ```ea49_rae_suppl_data1.xlsx``` and go to sheet ```d11B_pH```
@@ -66,11 +66,8 @@ plot(age, co2, xlab = "Age (Ma)", ylab = "[CO2] (ppm)", xlim=rev(c(0, 70)))
 ```
 
 * How does the CO~2~ variation compare with the variation in global mean temperature plotted in Figure 2.11 on page 31?
-
 * Estimate how high CO~2~ levels were during the early Eocene climate optimum
-
 * Go to Figure 8.3 on page 138 and estimate the CO~2~ for the year 2100 under the fossil fuel-intensive Shared Socioeconomic Pathway SSP5-8.5. Add a horizontal line that shows the projected CO~2~ concentration ``` abline(h = xxx, col = "blue")```.
-
 * The data that you are analyzing has been published by [Rae et al (2022)](https://www.annualreviews.org/doi/pdf/10.1146/annurev-earth-082420-063026). The abstract states how far back in time one must go in order to find CO~2~ concentrations that correspond to today's level. Read the abstract and verify their statement by adding a horizontal line that shows today's CO~2~ levels.
 
 ```{r addCurrentCO2, exercise = TRUE, exercise.eval = FALSE}
@@ -84,7 +81,7 @@ data <- read.csv(myFile, header = TRUE)
 
 age <- data$age / 1000
 co2 <- data$xco2
-plot(age, co2, xlab = "Age (Ma)", ylab = "[CO2] (ppm)", xlim=rev(c(0, 3.5)))
+plot(age, co2, xlab = "Age (Ma)", ylab = "[CO2] (ppm)", xlim=rev(c(0, 70)))
 
 abline(h = 421, col = "red")
 
@@ -111,9 +108,9 @@ abline(h = 421, col = "red")
 
 ### Exercise (2)
 
-* You are a group of scientists who just returned from Antarctica where you have conducted ice core drilling to reconstruct temperature changes during earth's history. You have been invited to share your results at the American Geophysical Union Fall Meeting. To prepare your presentation, follow the steps below.
+You are a group of scientists who just returned from Antarctica where you have conducted ice core drilling to reconstruct temperature changes during earth's history. You have been invited to share your results at the American Geophysical Union Fall Meeting. To prepare your presentation, follow the steps below.
 
-* Some background information: The original Vostock ice core data are provided by [Petit et al (2000)](https://data.ess-dive.lbl.gov/view/doi%3A10.3334%2FCDIAC%2FCLI.006) (vostok.1999.temp.dat). The data are described here: [Petit, J.R., Jouzel, J., Raynaud, D., Barkov, N.I., Barnola, J.M., Basile, I., Bender, M., Chappellaz, J., Davis, M., Delaygue, G. and Delmotte, M., 1999. Climate and atmospheric history of the past 420,000 years from the Vostok ice core, Antarctica. Nature, 399(6735), pp.429-436.](https://www.nature.com/articles/20859). I have prepared the data for you, so ther is no need for downloading data.
+* Some background information: The original Vostock ice core data are provided by [Petit et al (2000)](https://data.ess-dive.lbl.gov/view/doi%3A10.3334%2FCDIAC%2FCLI.006) (vostok.1999.temp.dat). The data are described here: [Petit, J.R., Jouzel, J., Raynaud, D., Barkov, N.I., Barnola, J.M., Basile, I., Bender, M., Chappellaz, J., Davis, M., Delaygue, G. and Delmotte, M., 1999. Climate and atmospheric history of the past 420,000 years from the Vostok ice core, Antarctica. Nature, 399(6735), pp.429-436](https://www.nature.com/articles/20859). I have prepared the data for you, so there is no need for downloading data.
 
 * Plot ice core depth versus age:
 
@@ -158,9 +155,7 @@ plot(data$Deuterium,  data$Temperature,
 ```
 
 * Deuterium is expressed as $\delta D$ in ‰ with respect to Standard Mean Ocean Water (SMOW): $\delta D_{ice} = \left( \frac{(D/H)_{sample}}{(D/H)_{SMOW}}-1 \right) \times 1,000$, where $H$ refers to Protium.
- 
 * Explain what Deuterium is, what the values show, and why Deuterium and temperature are positively correlated.
-
 * Next, plot how the temperature varies in time. To sort your plot from 400,000 to present, use ```xlim = rev(c(0, 400000))```.
 
 ```{r vostockTemp, exercise = TRUE, exercise.eval = FALSE}
@@ -181,7 +176,8 @@ plot(data$Age,  data$Temperature,
 * How many interglacial periods do you see? 
 * What periods are longer, glacial or interglacial? 
 * What happens faster, warming or cooling?
-* Below I am showing the same data as above, but I added a second line that shows [CO~2~] in red:
+
+Below I am showing the same data as above, but I added a second line that shows [CO~2~] in red:
 
 ```{r}
 rm(list = ls())
