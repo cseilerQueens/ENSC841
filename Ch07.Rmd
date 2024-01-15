@@ -1,0 +1,247 @@
+## Past and Future Changes
+
+### Exercise (1)
+The code below plots a time series of the daily mean incoming solar radiation (W m^-2^) at the top of the atmosphere (TOA) during summer solstice (Jun 20) at the latitude of 65 Degrees North. The horizontal line gives the corresponding value for the year 1950 (i.e. year zero), which I obtained from [here](https://data.giss.nasa.gov/modelE/ar5plots/srlocat.html). The vertical line gives the time of the present (2024). 
+
+The government has asked you to evaluate to what extent the Milankovitch cycle affects our current climate. To prepare your response, answer the following questions. 
+
+* By how much has the insolation changed during the Holocene?
+* Did the insolation increase or decrease since the onset of the industrial revolution?
+* Looking into the future, how will the Milankovitch cycle affect warming over the next 1000 years?
+* How large is this affect compared to a radiative forcing of 8.5 W m^-2^?
+
+You can answer these questions by running the code below for different time periods defined as ``` year <- seq(from = -400000, to = 0, by = 1000) ```
+
+```{r Milankovitch, exercise = TRUE, exercise.eval = FALSE}
+library(palinsol)
+
+year <- seq(from = -10^6, to = 0, by = 1000) 
+# year <- seq(from = -10000, to = 0, by = 10) 
+
+latitude <- 65 * pi/180 # (radians)
+
+insolation <- function(times, astrosol=ber78,...)
+sapply(times, function(tt) Insol(orbit=astrosol(tt), lon = pi/2, lat = latitude))
+
+# Daily mean incoming solar radiation at TOA (W/m2) 
+isl <- insolation(year, ber78)
+
+plot(year, isl, typ='l', 
+     main = "Daily mean solar radiation for June 20 (Solstice)",
+     xlab = "Years",
+     ylab = "Insolation at TOA (W/m2)")
+legend("topleft", paste("Latitude =", latitude * 180/pi, "N"), bty = "n")
+abline(h = 480.05, col = "grey")
+abline(v=2024-1950)
+
+```
+
+
+### Exercise (2)
+
+In this exercise you will run a simple global climate model called Hector. Hector is the default carbon cycle module for the integrated assessment model GCAM (Global Change Assessment Model). The section below will show you how to run Hector. 
+
+* Run the model and look at results
+
+```{r hector01, exercise = TRUE, exercise.eval = FALSE}
+library(hector)
+ini_file <- system.file("input/hector_ssp585.ini", package = "hector")
+
+# Initialize a Hector core. The core is a self-contained object that contains information about all of Hector’s inputs and outputs
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# Obtain the results
+results_default <- fetchvars(core, 1950:2300)
+
+# Have a look at the results
+head(results_default)
+```
+
+* Plot model output
+
+```{r hector02, exercise = TRUE, exercise.eval = FALSE, fig.width = 6, fig.height = 5}
+
+library(hector)
+ini_file <- ___
+
+# Initialize a Hector core. The core is a self-contained object that contains information about all of Hector’s inputs and outputs
+core <- ___
+
+# Run the model
+run(___)
+
+# Obtain the results
+results_default <- ___
+
+# Rename your results "df" (data frame). This is just for giving it a shorter name
+df <- results_default
+
+# There are four output variables
+categories <- unique(df$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df[df$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+  
+```
+
+
+```{r hector02-solution, fig.width = 6, fig.height = 5}
+
+library(hector)
+ini_file <- system.file("input/hector_ssp585.ini", package = "hector")
+
+# Initialize a Hector core. The core is a self-contained object that contains information about all of Hector’s inputs and outputs
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# Obtain the results
+results_default <- fetchvars(core, 1950:2300)
+
+# Rename your results "df" (data frame). This is just for giving it a shorter name
+df <- results_default
+
+# There are four output variables
+categories <- unique(df$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df[df$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+}
+
+```
+
+* Next, let's change the CO2 fertilization effect
+
+```{r hector03, exercise = TRUE, exercise.eval = FALSE}
+library(hector)
+ini_file <- system.file("input/hector_ssp585.ini", package = "hector")
+
+# Initialize a Hector core. The core is a self-contained object that contains information about all of Hector’s inputs and outputs
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# The current value for beta is
+beta <- fetchvars(core, NA, BETA())
+
+# Let's increase this to 0.5
+setvar(core, NA, BETA(), 0.80, "(unitless)")
+
+# Reset the core with the new value
+reset(core)
+
+# run the model
+run(core)
+
+# Get the results
+results_beta <- fetchvars(core, 1950:2300)
+```
+
+
+* Show the impact by plotting the results from the default run and from the new run
+
+```{r hector04, exercise = TRUE, exercise.eval = FALSE, fig.width = 6, fig.height = 5}
+
+# add code here
+
+df01 <- results_default
+df02 <- results_beta
+
+categories <- unique(df01$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df01[df01$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+  
+  data <- df02[df02$variable == categories[i], ]
+  lines(x = data$year, y = data$value, type = "l", col = "red")
+  abline(v = 2100)
+    
+}
+
+```
+```{r hector04-solution, fig.width = 6, fig.height = 5}
+library(hector)
+ini_file <- system.file("input/hector_ssp585.ini", package = "hector")
+
+# Initialize a Hector core.
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# Obtain the results
+results_default <- fetchvars(core, 1950:2300)
+
+# The current value for beta is
+beta <- fetchvars(core, NA, BETA())
+
+# Let's increase this to 0.5
+setvar(core, NA, BETA(), 0.80, "(unitless)")
+
+# Reset the core with the new value
+reset(core)
+
+# run the model
+run(core)
+
+# Get the results
+results_beta <- fetchvars(core, 1950:2300)
+
+df01 <- results_default
+df02 <- results_beta
+
+categories <- unique(df01$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df01[df01$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+  
+  data <- df02[df02$variable == categories[i], ]
+  lines(x = data$year, y = data$value, type = "l", col = "red")
+  abline(v = 2100)
+    
+}
+
+```
+
+* Have a look at the figures and try to explain them. What is the impact of increasing beta?

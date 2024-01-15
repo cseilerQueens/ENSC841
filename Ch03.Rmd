@@ -326,7 +326,7 @@ grade_result(
 )
 ```
 
-The surface temperature of the sun is approximately 6000K. What is the characteristic wavelength of the sun expressed in micro meters?
+What is the characteristic wavelength of the sun expressed in micro meters?
 
 ```{r wavelengthSun, exercise = TRUE, exercise.eval = FALSE}
 

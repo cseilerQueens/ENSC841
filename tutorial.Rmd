@@ -13,6 +13,8 @@ library(viridis)
 library(magick)
 library(pdftools)
 library(latex2exp)
+library(palinsol)
+library(hector)
 
 source("daisyworld.R")
 
@@ -20,6 +22,8 @@ gradethis::gradethis_setup()
 knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.timelimit = 60)
 ```
+
+```{r echo = TRUE}
 
 ```{r child = 'Ch02.Rmd'}
 ```
@@ -31,4 +35,7 @@ tutorial_options(exercise.timelimit = 60)
 ```
 
 ```{r child = 'Ch06.Rmd'}
+```
+
+```{r child = 'Ch07.Rmd'}
 ```
