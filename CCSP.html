@@ -527,9 +527,13 @@ tinytex::install_tinytex()
 
 install.packages(&quot;learnr&quot;)
 install.packages(&quot;gradethis&quot;)
+install.packages(&quot;remotes&quot;)
+
 # if gradethis does not install, try:
-# install.packages(&quot;remotes&quot;)
-# remotes::install_github(&quot;rstudio/gradethis&quot;, force = TRUE)</code></pre>
+# remotes::install_github(&quot;rstudio/gradethis&quot;, force = TRUE)
+
+install.packages(&quot;palinsol&quot;)
+remotes::install_github(&#39;jgcri/hector&#39;)</code></pre>
 <ul>
 <li>Next, install git. For windows, go <a href="https://git-scm.com/download/win">here</a>. For Mac, open your
 terminal, type <code>git --version</code> and follow the

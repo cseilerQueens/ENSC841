@@ -39,9 +39,9 @@ abline(v=2024-1950)
 
 ### Exercise (2)
 
-In this exercise you will run a simple global climate model called Hector. Hector is the default carbon cycle module for the integrated assessment model GCAM (Global Change Assessment Model). The section below will show you how to run Hector. 
+In this exercise you will run a simple global climate model called [Hector](https://jgcri.github.io/hector/index.html). Hector is the default carbon cycle module for the integrated assessment model GCAM (Global Change Assessment Model). The section below will show you how to run Hector. 
 
-* Run the model and look at results
+* Run the model
 
 ```{r hector01, exercise = TRUE, exercise.eval = FALSE}
 library(hector)
@@ -132,7 +132,13 @@ for (i in 1:length(categories)) {
 
 ```
 
-* Next, let's change the CO2 fertilization effect
+### Exercise (3)
+
+The model accounts for the CO~2~ fertilization effect using a multiplier $f$:
+
+$$ f = 1 + \beta_i \left( \log \left( \frac{C_{atm}}{C0}\right) \right) $$
+
+* Let's increase the parameter $\beta_i$ from its default value to 0.8 and run the model again
 
 ```{r hector03, exercise = TRUE, exercise.eval = FALSE}
 library(hector)
@@ -147,7 +153,7 @@ run(core)
 # The current value for beta is
 beta <- fetchvars(core, NA, BETA())
 
-# Let's increase this to 0.5
+# Let's increase this to 0.8
 setvar(core, NA, BETA(), 0.80, "(unitless)")
 
 # Reset the core with the new value
@@ -160,8 +166,7 @@ run(core)
 results_beta <- fetchvars(core, 1950:2300)
 ```
 
-
-* Show the impact by plotting the results from the default run and from the new run
+* Show the impact by plotting the results from the default run and from the new run. How does the increase in $\beta_i$ affect the atmospheric CO~2~ concentration, radiative forcing, and global mean surface temperature? 
 
 ```{r hector04, exercise = TRUE, exercise.eval = FALSE, fig.width = 6, fig.height = 5}
 
@@ -191,6 +196,7 @@ for (i in 1:length(categories)) {
 }
 
 ```
+
 ```{r hector04-solution, fig.width = 6, fig.height = 5}
 library(hector)
 ini_file <- system.file("input/hector_ssp585.ini", package = "hector")
@@ -244,4 +250,84 @@ for (i in 1:length(categories)) {
 
 ```
 
-* Have a look at the figures and try to explain them. What is the impact of increasing beta?
+### Exercise (4)
+
+The government has asked you to conduct a study that shows how global mean surface temperature would respond if we immediately stopped all CO~2~ emissions. Hector simulates atmospheric CO~2~ concentrations, and radiative forcings, and global mean surface temperature based on prescribed emissions. To respond to the government's request, you need to change the prescribed emissions and simulate the impacts. To do this 
+
+* Type ```ini_file``` into your R console to see the location of your initialization file
+
+* You should obtain a directory similar to this one:
+
+```
+C:/Users/seile/AppData/Local/R/win-library/4.2/hector/input/hector_ssp585.ini
+```
+
+* Copy the file and give it a new name:
+
+```
+C:/Users/seile/AppData/Local/R/win-library/4.2/hector/input/hector_ENSC841.ini
+```
+
+* Open the file and replace all
+
+```
+ssp585_emiss-constraints_rf.csv
+```
+
+with 
+
+```
+ENSC841.csv
+```
+
+* Go the the tables folder and copy ```ssp585_emiss-constraints_rf.csv``` to ```ENSC841.csv```
+
+* Open ```ENSC841.csv``` in Excel and have a look at the ```ffi_emissions``` column. This column gives the emissions in PgC per year. Set these values to zero starting from 2024 onward.
+
+* Run the model withe the new initialization file
+
+```ini_file <- system.file("input/hector_ENSC841.ini", package = "hector")```
+
+* Would this be sufficient to keep temperatures below 1.5 Degrees Celsius by 2100?
+
+```{r hector05, exercise = TRUE, exercise.eval = FALSE, fig.width = 6, fig.height = 5}
+
+```
+
+```{r hector05-solution, fig.width = 6, fig.height = 5}
+library(hector)
+ini_file <- system.file("input/hector_ENSC841.ini", package = "hector")
+
+# Initialize a Hector core.
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# Obtain the results
+df <- fetchvars(core, 1950:2300)
+
+# There are four output variables
+categories <- unique(df$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df[df$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+  abline(v=2024, lty = 2)
+  abline(v=2100, lty = 2)
+}
+```
+
+* Repeat the experiment above, but also reduce methane (CH~4~) emissions from 2024 onward to zero
+
+* Next, also set nitrous oxide (N~2~O) emissions from 2024 onward to zero
+
+* How do these changes affect global temperature? 
