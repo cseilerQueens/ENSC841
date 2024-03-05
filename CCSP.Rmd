@@ -4,7 +4,7 @@ Welcome to Climate Change Science and Policy - ENSC 841. In December 2015, 195 c
 
 ### Schedule and slides
 
-The following Table provides an overview of the topic and reading assignments for each class. Each class consists of a lecture, in-class exercises, and discussions. The textbook refers to Dessler, A.E., 2021. Introduction to modern climate change. Cambridge University Press. The book is available at Queen's University bookstore. The supporting literature are listed in the syllabus.
+The following Table provides an overview of the topic and reading assignments for each class. Each class consists of a lecture, in-class exercises, and discussions. The textbook refers to Dessler, A.E., 2021. Introduction to modern climate change. Cambridge University Press. The book is available at [Queen's University bookstore](https://www.campusbookstore.com/textbooks/search-engine/results?Course=ENSC26469). The supporting literature are listed in the syllabus.
 
 |Week | Date | Topic | Textbook | Supporting Lit.| 
 |:-|:---|:--------|:---|:---|
@@ -12,15 +12,15 @@ The following Table provides an overview of the topic and reading assignments fo
 |2 | Tue, Jan 16 | [Radiation and Energy Balance](https://drive.google.com/file/d/17t3eTh9kdXogQD39GhlrQkQzAuRTtjSc/view?usp=sharing) | Ch. 3, 4 | - |
 |3 | Tue, Jan 23 | [Global Carbon Cycle](https://drive.google.com/file/d/1Pk4hXrb4RYqAT-r_E2-NO0QgjglvPbPU/view?usp=sharing) | Ch. 5 | - |
 |4 | Tue, Jan 30 | [Forcing, Feedbacks, and Climate Sensitivity](https://drive.google.com/file/d/19T_-KRQO0flkNyZzVGzd6aoND1no6IOG/view?usp=sharing) | Ch. 6 | - |
-|5 | Tue, Feb 6 | Past Changes and Future Projections | Ch. 7, 8 | - |
-|6 | Tue, Feb 13 | Climate Change Impacts | Ch. 9, 10 | AR6-WGI-SPM |
+|5 | Tue, Feb 6 | [Past Changes and Future Projections](https://drive.google.com/file/d/16pEqDePpiuo4E-27IsZM2PW9vbamVKT4/view?usp=sharing) | Ch. 7, 8 | - |
+|6 | Tue, Feb 13 | [Climate Change Impacts](https://drive.google.com/file/d/1SeBVIbtKQf32mkagtglaXhZFn9CGwGbs/view?usp=sharing) | Ch. 9, 10 | [AR6-WGI-Ch4](https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter04.pdf) |
 |7 | Tue, Feb 20 | Reading Week | - | - |
 |8 | Tue, Feb 27 | Mid-term exam | - | - |
-|9 | Tue, Mar 5 | Adaptation and Mitigation Policies | Ch. 11, 12 | AR6-WGII/III-SPM |
-|10 | Tue, Mar 12 | Climate Science and Policy History | Ch. 13 | Charney Report | 
-|11 | Tue, Mar 19 | Paris Agreement: Part I | - | Klein, Part I, Ch. 2, 3 |
-|12 | Tue, Mar 26 | Paris Agreement: Part II | - | Klein, Part I, Ch. 4, 5 |
-|13 | Tue, Apr 2 | Current state of affairs | - | Gap Reports|
+|9 | Tue, Mar 5 | Adaptation and Mitigation Policies | Ch. 11, 12 | [AR6-WGII](https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_SummaryForPolicymakers.pdf)/[III-SPM](https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SummaryForPolicymakers.pdf) |
+|10 | Tue, Mar 12 | Climate Science and Policy History | Ch. 13 | [Charney Report](https://geosci.uchicago.edu/~archer/warming_papers/charney.1979.report.pdf) | 
+|11 | Tue, Mar 19 | Paris Agreement: Part I | - | [Klein, Part I, Ch. 2, 3](https://ocul-qu.primo.exlibrisgroup.com/permalink/01OCUL_QU/r9dor2/alma9952454683605158) |
+|12 | Tue, Mar 26 | Paris Agreement: Part II | - |[Klein, Part I, Ch. 4, 5](https://ocul-qu.primo.exlibrisgroup.com/permalink/01OCUL_QU/r9dor2/alma9952454683605158) |
+|13 | Tue, Apr 2 | Current state of affairs | - | Gap Reports ([Emission](https://wedocs.unep.org/bitstream/handle/20.500.11822/43923/EGR2023_ESEN.pdf?sequence=10), [Production](https://productiongap.org/wp-content/uploads/2023/11/PGR2023_ExecSum_web.pdf)) |
 
 
 ### Exercises

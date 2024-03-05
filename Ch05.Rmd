@@ -199,7 +199,7 @@ library(deSolve)
 carbon_model <- function(time, state, parameters) {
   with(as.list(c(state, parameters)), {
     
-    # Exchange coefficients in yr-1 (Avenhaus et al., 1979; Table 1)
+    # Exchange coefficients in yr-1 (Dessler 2022, page 75, Figure 5.2)
     k_ab <- 110/864
     k_ba <- 110/2150
     k_am <- 60/864

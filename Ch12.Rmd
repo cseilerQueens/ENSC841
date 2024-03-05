@@ -1,0 +1,153 @@
+## Mitigation Policies
+
+
+### Exercise (1)
+
+Using the data from the table below, make a Figure that shows how the sum of the costs associated with (a) reducing emissions and (b) the carbon tax of 4 CAD per tonne of carbon change as emissions are reduced from 0 to 7 tonnes of carbon.
+
+
+| Emissions reduced (tC) | Emissions (tC)| Marginal Costs (CAD)| Total Costs CAD|
+|:---:|:---:|:---:|:---:|
+| 0  | 10  | 0 | 0 |
+| 1  | 9   | 1 | 1 |
+| 2  | 8   | 2 | 3 |
+| 3  | 7   | 3 | 6 |
+| 4  | 6   | 4 | 10 |
+| 5  | 5   | 5 | 15 |
+| 6  | 4   | 6 | 21 |
+| 7  | 3   | 7 | 28 |
+
+
+```{r carbonTax, exercise = TRUE, exercise.eval = FALSE}
+```
+
+```{r carbonTax-solution}
+
+carbonTax <- 4 # ($ per tC) 
+reduction <- seq(0,7, 1)
+emission <- 10 - reduction
+marginal <- seq(0,7, 1)
+total <- cumsum(marginal)
+tax <- emission * carbonTax
+TotalPlusTax <- total + tax 
+
+par(mfrow = c(1,1), mar = c(5,5,1,1))
+plot(reduction, TotalPlusTax, type = "l",
+     xlab = "Emissions reduced (tC)",
+     ylab = "Costs of reductions + Tax (CAD)")
+
+```
+### Exercise (2)
+
+In this exercise you will explore climate change mitigation pathways that are consistent with the 2015 Paris Agreement. The pathways are used in the [Special Report on Global Warming of 1.5$^{\circ}$C (SR15)](https://www.ipcc.ch/site/assets/uploads/sites/2/2022/06/SR15_Full_Report_LR.pdf) by the Intergovernmental Panel on Climate Change (IPCC) published in 2018. The datasets are documented [here](https://data.ene.iiasa.ac.at/iamc-1.5c-explorer/#/docs). To download the data visit the [Integrated Assessment Modeling Consortium scenario explorer](https://data.ene.iiasa.ac.at/iamc-1.5c-explorer/#/downloads). Download the following spreadsheet to your computer:
+
+```
+iamc15_scenario_data_world_r2.0.xlsx
+```
+
+Copy-paste the code below into the R console. Make sure you edit the path where R can find your spreadsheet.
+
+```
+rm(list = ls())
+library(mipplot)
+library(tidyverse)
+data <- read_iamc_xlsx("C:/Users/seile/Documents/queensu/teaching/classes/ENSC841/data/IAMC/iamc15_scenario_data_world_r2.0.xlsx", sheet = 2)
+
+mipplot_interactive_line(data)
+
+```
+
+If all went well, a new window appears. Make the following selections in the dropdown lists:
+
+* ```region: World ```
+* ```variable: Emissions|CO2 ```
+* ```model: REMIND-MAgPIE 1.7-3.0 ```
+* ```scenario: SMP_1p5C_Def, SMP_2C_Def, and SMP_REF_Def ```
+
+The three scenarios are described [here](https://iopscience.iop.org/article/10.1088/1748-9326/aac3ec/pdf) and correspond to the following carbon budget and mitigation measures:
+
+* ```SMP_1p5C_Def```: Budget of 400Gt CO2 2011-2100 with default policy of comprehensive carbon pricing only
+* ```SMP_2C_Def```: Budget of 1000Gt CO2 2011-2100 with default policy of comprehensive carbon pricing only
+* ```SMP_REF_Def```: No-policy baseline
+
+Hit the ```Apply Changes``` button to visualize the data you selected. Save the images and create a small slide deck that answers the following questions: 
+
+* How do the three pathways differ? 
+* When do emissions need to become negative for reaching the 1.5 Degrees target?
+* Show the probability that global mean surface temperature will exceed 1.5 degrees (Select ```variable: AR5 climate diagnostics|Temperature|Exceedance Probability|1.5C|MAGICC6 ``` and hit the ```Apply Changes``` button)
+* What are the projections for the carbon price and how do the values compare to Canada's carbon tax? (Select ```Price|Carbon```)
+* How does the carbon price change over time and 
+* How do we generate negative emissions? To answer this question, explore the role of forests (```Land Cover|Forest```, ```Land Cover|Forest|Natural Forest```)
+* How does the energy supply changes over time (```Capacity|Electric|Solar```)?
+* How important is carbon capture and storage (```Carbon Sequestration|CCS```)?
+* Explore other variables that you find interesting. Note that most scenarios are model-specific, and not all variables are available for all models
+
+
+
+```{r eval = FALSE}
+
+carbonTax <- seq(0,6,2) # ($ per tC) 
+reduction <- seq(0,7,1)
+
+my.fun <- function(reduction, carbonTax){
+
+emission <- 10 - reduction
+marginal <- seq(0,7, 1)
+total <- cumsum(marginal)
+tax <- emission * carbonTax
+TotalPlusTax <- total + tax
+return(TotalPlusTax)
+}
+
+
+data <- outer(reduction, carbonTax, my.fun)
+
+my.xlab <- "Emissions reduced (tC)"
+my.ylab <- "Costs of reductions + Tax (CAD)"
+
+my.col <- rev(viridis::plasma(n = ncol(data)))
+
+par(mar = c(5,5,1,1))
+matplot(x = reduction, y = data, type = "l", lty = 1, col = my.col,
+        xlab = my.xlab, ylab = my.ylab)
+
+legend.text <- paste("Carbon Tax =", carbonTax, "CAD/tC", sep = " ")
+legend("bottomright", legend = legend.text, pch = 16, col = my.col, bty = "n")
+
+```
+
+```{r eval = FALSE}
+# Plant A
+reduction <- seq(0,7, 1)
+carbonTax <- 4 # ($ per tC) 
+emission <- 10 - reduction
+marginal <- seq(0,7, 1)
+total <- cumsum(marginal)
+tax <- emission * carbonTax
+plantA <- total + tax 
+
+# Plant B
+reduction <- seq(0,7, 1)
+carbonTax <- 4 # ($ per tC) 
+emission <- 10 - reduction
+marginal <- seq(0,7, 1) * 2
+total <- cumsum(marginal)
+tax <- emission * carbonTax
+plantB <- total + tax 
+
+
+
+par(mfrow = c(1,1), mar = c(5,5,1,1))
+plot(reduction, plantA, type = "l", ylim = c(30,70),
+     xlab = "Emissions reduced (tC)",
+     ylab = "Costs of reductions + Tax (CAD)")
+
+lines(reduction, plantB, col = "red")
+
+my.col <- c("black", "red")
+
+legend.text <- paste("Carbon Tax =", carbonTax, "CAD/tC", sep = " ")
+legend("topleft", legend = c("Plant A", "Pant B (marginal costs 2 x that of Plant A)"), pch = 16, col = my.col, bty = "n")
+
+```
+

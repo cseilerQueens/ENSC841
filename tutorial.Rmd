@@ -15,6 +15,8 @@ library(pdftools)
 library(latex2exp)
 library(palinsol)
 library(hector)
+library(mipplot)
+library(tidyverse)
 
 source("daisyworld.R")
 
@@ -37,4 +39,7 @@ tutorial_options(exercise.timelimit = 60)
 ```
 
 ```{r child = 'Ch07.Rmd'}
+```
+
+```{r child = 'Ch12.Rmd'}
 ```
