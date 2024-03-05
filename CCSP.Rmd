@@ -52,6 +52,10 @@ install.packages("remotes")
 
 install.packages("palinsol")
 remotes::install_github('jgcri/hector')
+
+install.packages("mipplot")
+install.packages("tidyverse")
+
 ```
 
 * Next, install git. For windows, go [here](https://git-scm.com/download/win). For Mac, open your terminal, type ```git --version``` and follow the instructions.
