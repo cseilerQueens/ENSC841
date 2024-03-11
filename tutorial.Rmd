@@ -16,7 +16,7 @@ library(latex2exp)
 library(palinsol)
 library(hector)
 library(mipplot)
-library(tidyverse)
+# library(tidyverse)
 
 source("daisyworld.R")
 
@@ -24,7 +24,6 @@ gradethis::gradethis_setup()
 knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.timelimit = 60)
 ```
-
 
 ```{r child = 'Ch02.Rmd'}
 ```
@@ -42,4 +41,7 @@ tutorial_options(exercise.timelimit = 60)
 ```
 
 ```{r child = 'Ch12.Rmd'}
+```
+
+```{r child = 'Ch13.Rmd'}
 ```

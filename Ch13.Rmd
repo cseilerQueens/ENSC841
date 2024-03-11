@@ -1,0 +1,123 @@
+## Nationally Determined Contributions
+
+You are part of the Canadian delegation participating at this year's Conference of the Parties (COP). Your job is to evaluate whether a given scenario stays below the 1.5 degrees Celsius warming target set by the 2015 Paris Agreement. To do this you will run the simple global climate model [Hector](https://jgcri.github.io/hector/index.html), which is the default carbon cycle module for the integrated assessment model GCAM (Global Change Assessment Model). Contrary to a previous exercise, we will use Hector to explore the remaining carbon budget and the impact of Nationally Determined Contributions (NDCs).
+
+### Exercise (1)
+Run the code below and answer the following questions:
+
+* Is the SSP1-1.9 scenario compatible with the 2015 Paris Agreement? 
+* Does this scenario include an overshoot?
+* How high is the atmospheric CO~2~ concentration by the year 2100, and how does this value compare to the current atmospheric CO~2~ concentration?
+
+```{r hector_SSP119a, exercise = TRUE}
+library(hector)
+ini_file <- system.file("input/hector_ssp119.ini", package = "hector")
+
+# Initialize a Hector core. The core is a self-contained object that contains information about all of Hector’s inputs and outputs
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# Obtain the results
+results_default <- fetchvars(core, 1950:2300)
+
+# Rename your results "df" (data frame). This is just for giving it a shorter name
+df <- results_default
+
+# There are four output variables
+categories <- unique(df$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df[df$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+}
+```
+
+### Exercise (2)
+How do negative emissions affect the result above? To answer this question you need to edit the model input file. 
+
+* Type ```ini_file``` into your R console to see the location of your initialization file
+
+* You should obtain a directory similar to this one:
+
+```
+C:/Users/seile/AppData/Local/R/win-library/4.2/hector/input/hector_ssp191.ini
+```
+
+* Copy the file and give it a new name:
+
+```
+C:/Users/seile/AppData/Local/R/win-library/4.2/hector/input/hector_ENSC841_NDCs.ini
+```
+
+* Open the file and replace all
+
+```
+ssp119_emiss-constraints_rf.csv
+```
+
+with 
+
+```
+ENSC841_NDCs.csv
+```
+
+* Go the the tables folder and copy ```ssp119_emiss-constraints_rf.csv``` to ```ENSC841_NDCs.csv```
+* You can now evaluate the impact of different emissions by editing the data in ```ENSC841_NDCs.csv```.
+
+Set all negative emissions associated with direct air capture (column ```daccs_uptake```) and land use change uptake (column ```luc_uptake```) to zero in your spreadsheet. Re-run the model and evaluate whether you still reach the 2015 Paris Agreement target. 
+
+
+```{r hector_NDCs, exercise = TRUE}
+library(hector)
+ini_file <- system.file("input/hector_ENSC841_NDCs.ini", package = "hector")
+
+# Initialize a Hector core. The core is a self-contained object that contains information about all of Hector’s inputs and outputs
+core <- newcore(ini_file)
+
+# Run the model
+run(core)
+
+# Obtain the results
+results_default <- fetchvars(core, 1950:2300)
+
+# Rename your results "df" (data frame). This is just for giving it a shorter name
+df <- results_default
+
+# There are four output variables
+categories <- unique(df$variable)
+
+# Set up a layout for multiple plots
+par(mfrow = c(2,2), mar = c(4,4,1,1))
+
+# Loop through each category and create a plot for each category
+for (i in 1:length(categories)) {
+  
+  # Subset data frame 
+  data <- df[df$variable == categories[i], ]
+  unit <- unique(data$units)
+  # Plot data
+  plot(x = data$year, y = data$value, ylab = paste(categories[i], unit), xlab = "Year", type = "l")
+}
+```
+
+### Exercise (3)
+What would happen if current CO~2~ emissions of 10 PgC per year remain constant from 2023 onward? Go to the ```ffi_emissions``` column and change all values from between the years 2023 and 2300 to 10. Once you made those changes, run the model again. In what year will we reach 1.5 degrees?
+
+### Exercise (4)
+Next, set all ```ffi_emissions``` to zero emissions by 2030 and rerun the model. Do we now reach our 2015 Paris Agreement target? What happens if we also set emissions related to land use change to zero?
+
+### Exercise (5)
+Now you will assess the impact of the most recent Nationally Determined Contributions. Go to the [International Energy Agency website](https://www.iea.org/data-and-statistics/data-tools/climate-pledges-explorer) and find the most recent emission reduction pledge. Apply the annual emission reduction rate to your ```.csv``` spreadsheet from 2024 to 2300 and re-run the model. Do we now reach our 2015 Paris Agreement target?
+
+### Exercise (6)
+What annual reduction rate would be required to reach the 1.5 Degree target? Answer the question by running the model with different annual reduction rates.

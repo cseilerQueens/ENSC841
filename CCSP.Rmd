@@ -16,8 +16,8 @@ The following Table provides an overview of the topic and reading assignments fo
 |6 | Tue, Feb 13 | [Climate Change Impacts](https://drive.google.com/file/d/1SeBVIbtKQf32mkagtglaXhZFn9CGwGbs/view?usp=sharing) | Ch. 9, 10 | [AR6-WGI-Ch4](https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_Chapter04.pdf) |
 |7 | Tue, Feb 20 | Reading Week | - | - |
 |8 | Tue, Feb 27 | Mid-term exam | - | - |
-|9 | Tue, Mar 5 | Adaptation and Mitigation Policies | Ch. 11, 12 | [AR6-WGII](https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_SummaryForPolicymakers.pdf)/[III-SPM](https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SummaryForPolicymakers.pdf) |
-|10 | Tue, Mar 12 | Climate Science and Policy History | Ch. 13 | [Charney Report](https://geosci.uchicago.edu/~archer/warming_papers/charney.1979.report.pdf) | 
+|9 | Tue, Mar 5 | [Fundamentals of Climate Change Policy](https://drive.google.com/file/d/1EwhGbk-qCnCMvuocOOIg0PglVD_AZxap/view?usp=sharing) | Ch. 11, 12 | [AR6-WGII](https://www.ipcc.ch/report/ar6/wg2/downloads/report/IPCC_AR6_WGII_SummaryForPolicymakers.pdf)/[III-SPM](https://www.ipcc.ch/report/ar6/wg3/downloads/report/IPCC_AR6_WGIII_SummaryForPolicymakers.pdf) |
+|10 | Tue, Mar 12 | [Climate Science and Policy History](https://drive.google.com/file/d/11_eUvu7_4VhQy807CYN1X8S7BNJ948Kk/view?usp=sharing) | Ch. 13 | [Charney Report](https://geosci.uchicago.edu/~archer/warming_papers/charney.1979.report.pdf) | 
 |11 | Tue, Mar 19 | Paris Agreement: Part I | - | [Klein, Part I, Ch. 2, 3](https://ocul-qu.primo.exlibrisgroup.com/permalink/01OCUL_QU/r9dor2/alma9952454683605158) |
 |12 | Tue, Mar 26 | Paris Agreement: Part II | - |[Klein, Part I, Ch. 4, 5](https://ocul-qu.primo.exlibrisgroup.com/permalink/01OCUL_QU/r9dor2/alma9952454683605158) |
 |13 | Tue, Apr 2 | Current state of affairs | - | Gap Reports ([Emission](https://wedocs.unep.org/bitstream/handle/20.500.11822/43923/EGR2023_ESEN.pdf?sequence=10), [Production](https://productiongap.org/wp-content/uploads/2023/11/PGR2023_ExecSum_web.pdf)) |

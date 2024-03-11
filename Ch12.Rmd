@@ -1,6 +1,5 @@
 ## Mitigation Policies
 
-
 ### Exercise (1)
 
 Using the data from the table below, make a Figure that shows how the sum of the costs associated with (a) reducing emissions and (b) the carbon tax of 4 CAD per tonne of carbon change as emissions are reduced from 0 to 7 tonnes of carbon.
@@ -45,44 +44,888 @@ In this exercise you will explore climate change mitigation pathways that are co
 iamc15_scenario_data_world_r2.0.xlsx
 ```
 
-Copy-paste the code below into the R console. Make sure you edit the path where R can find your spreadsheet.
+Run the code chunk below. Make sure you edit the path where R can find your ```iamc15_scenario_data_world_r2.0.xlsx``` spreadsheet.
 
-```
+
+```{r, IAMC15a, exercise = TRUE}
+
+options(warn=-1)
+
 rm(list = ls())
 library(mipplot)
 library(tidyverse)
-data <- read_iamc_xlsx("C:/Users/seile/Documents/queensu/teaching/classes/ENSC841/data/IAMC/iamc15_scenario_data_world_r2.0.xlsx", sheet = 2)
 
-mipplot_interactive_line(data)
+myFile <- file.path("data", "iamc15_scenario_data_world_r2.0.xlsx") 
+data <- read_iamc_xlsx(myFile, sheet = 2)
+data_subset <- data %>%
+filter( model %in% c("REMIND-MAgPIE 1.7-3.0") ) %>%
+filter(2000 <= period) %>%
+filter(period <= 2100)
 
+mipplot_line(
+data_subset,
+variable = c("Emissions|CO2"),
+scenario = c("SMP_1p5C_Def", "SMP_2C_Def", "SMP_REF_Def"),
+region = c("World"),
+legend = TRUE,
+axis_year_text_angle = 0,
+language = 'en')
 ```
 
-If all went well, a new window appears. Make the following selections in the dropdown lists:
-
-* ```region: World ```
-* ```variable: Emissions|CO2 ```
-* ```model: REMIND-MAgPIE 1.7-3.0 ```
-* ```scenario: SMP_1p5C_Def, SMP_2C_Def, and SMP_REF_Def ```
-
-The three scenarios are described [here](https://iopscience.iop.org/article/10.1088/1748-9326/aac3ec/pdf) and correspond to the following carbon budget and mitigation measures:
+The three scenarios selected above are described [here](https://iopscience.iop.org/article/10.1088/1748-9326/aac3ec/pdf) and correspond to the following carbon budget and mitigation measures:
 
 * ```SMP_1p5C_Def```: Budget of 400Gt CO2 2011-2100 with default policy of comprehensive carbon pricing only
 * ```SMP_2C_Def```: Budget of 1000Gt CO2 2011-2100 with default policy of comprehensive carbon pricing only
 * ```SMP_REF_Def```: No-policy baseline
 
-Hit the ```Apply Changes``` button to visualize the data you selected. Save the images and create a small slide deck that answers the following questions: 
+You can choose different models, variasbles, and sceanrios, using the respective names given in the boxes below. Note that not all combinations are possible, e.g. most scenarios are model-specific.
+
+
+Answers the following questions for the model ```REMIND-MAgPIE 1.7-3.0``` and the scenarios ```SMP_1p5C_Def```, ```SMP_2C_Def```, and ```SMP_REF_Def```. Save the images and present a short slide deck that illustrates your answers.
 
 * How do the three pathways differ? 
 * When do emissions need to become negative for reaching the 1.5 Degrees target?
-* Show the probability that global mean surface temperature will exceed 1.5 degrees (Select ```variable: AR5 climate diagnostics|Temperature|Exceedance Probability|1.5C|MAGICC6 ``` and hit the ```Apply Changes``` button)
-* What are the projections for the carbon price and how do the values compare to Canada's carbon tax? (Select ```Price|Carbon```)
-* How does the carbon price change over time and 
-* How do we generate negative emissions? To answer this question, explore the role of forests (```Land Cover|Forest```, ```Land Cover|Forest|Natural Forest```)
-* How does the energy supply changes over time (```Capacity|Electric|Solar```)?
-* How important is carbon capture and storage (```Carbon Sequestration|CCS```)?
-* Explore other variables that you find interesting. Note that most scenarios are model-specific, and not all variables are available for all models
+* Show the probability that global mean surface temperature will exceed 1.5 degrees. To answer this question, you need to replace the variable CO2 emissions (```Emissions|CO2```) with the probability that our selected scenarios will exceed our 1.5 Degrees Celsius warming target (```AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6```):
 
+```{r IAMC15b, exercise = TRUE}
 
+options(warn=-1)
+
+rm(list = ls())
+library(mipplot)
+library(tidyverse)
+
+myFile <- file.path("data", "iamc15_scenario_data_world_r2.0.xlsx") 
+data <- read_iamc_xlsx(myFile, sheet = 2)
+
+data_subset <- data %>%
+filter( model %in% c("REMIND-MAgPIE 1.7-3.0") ) %>%
+filter(2000 <= period) %>%
+filter(period <= 2100)
+
+mipplot_line(
+data_subset,
+variable = c("AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6"),
+scenario = c("SMP_1p5C_Def", "SMP_2C_Def", "SMP_REF_Def"),
+region = c("World"),
+legend = TRUE,
+axis_year_text_angle = 0,
+language = 'en')
+```
+
+* What are the projections for the carbon price and how do the values compare to Canada's carbon tax? (variable: ```Price|Carbon```)
+* How does the carbon price change over time?
+* How do we generate negative emissions? To answer this question, explore the role of forests (variable: ```Land Cover|Forest```, ```Land Cover|Forest|Natural Forest```)
+* How does the energy supply changes over time (variable: ```Capacity|Electric|Solar```)?
+* How important is carbon capture and storage (variable: ```Carbon Sequestration|CCS```)?
+* Explore other variables that you find interesting. Recall that most scenarios are model-specific, and not all variables are available for all models
+
+#### Models
+
+```
+ 1 AIM/CGE 2.0                                 
+ 2 AIM/CGE 2.1                                 
+ 3 C-ROADS-5.005                               
+ 4 GCAM 4.2                                    
+ 5 GENeSYS-MOD 1.0                             
+ 6 IEA Energy Technology Perspective Model 2017
+ 7 IEA World Energy Model 2017                 
+ 8 IMAGE 3.0.1                                 
+ 9 IMAGE 3.0.2                                 
+10 MERGE-ETL 6.0                               
+11 MESSAGE V.3                                 
+12 MESSAGE-GLOBIOM 1.0                         
+13 MESSAGEix-GLOBIOM 1.0                       
+14 POLES ADVANCE                               
+15 POLES CD-LINKS                              
+16 POLES EMF33                                 
+17 REMIND 1.5                                  
+18 REMIND 1.7                                  
+19 REMIND-MAgPIE 1.5                           
+20 REMIND-MAgPIE 1.7-3.0                       
+21 Reference                                   
+22 Shell World Energy Model 2018               
+23 WITCH-GLOBIOM 3.1                           
+24 WITCH-GLOBIOM 4.2                           
+25 WITCH-GLOBIOM 4.4 
+```
+
+#### Variables
+
+```
+  1 AR5 climate diagnostics|Concentration|CO2|FAIR|MED                                 ppm                
+  2 AR5 climate diagnostics|Concentration|CO2|MAGICC6|MED                              ppm                
+  3 AR5 climate diagnostics|Forcing|Aerosol|Direct|MAGICC6|MED                         W/m2               
+  4 AR5 climate diagnostics|Forcing|Aerosol|MAGICC6|MED                                W/m2               
+  5 AR5 climate diagnostics|Forcing|Aerosol|Total|FAIR|MED                             W/m2               
+  6 AR5 climate diagnostics|Forcing|Aerosol|Total|MAGICC6|MED                          W/m2               
+  7 AR5 climate diagnostics|Forcing|CH4|FAIR|MED                                       W/m2               
+  8 AR5 climate diagnostics|Forcing|CH4|MAGICC6|MED                                    W/m2               
+  9 AR5 climate diagnostics|Forcing|CO2|FAIR|MED                                       W/m2               
+ 10 AR5 climate diagnostics|Forcing|CO2|MAGICC6|MED                                    W/m2               
+ 11 AR5 climate diagnostics|Forcing|F-Gases|MAGICC6|MED                                W/m2               
+ 12 AR5 climate diagnostics|Forcing|FAIR|MED                                           W/m2               
+ 13 AR5 climate diagnostics|Forcing|Kyoto Gases|MAGICC6|MED                            W/m2               
+ 14 AR5 climate diagnostics|Forcing|MAGICC6|MED                                        W/m2               
+ 15 AR5 climate diagnostics|Forcing|Montreal Protocol (orig.) gases|MAGICC6|MED        W/m2               
+ 16 AR5 climate diagnostics|Forcing|N2O|FAIR|MED                                       W/m2               
+ 17 AR5 climate diagnostics|Forcing|N2O|MAGICC6|MED                                    W/m2               
+ 18 AR5 climate diagnostics|Forcing|OtherGHGs|FAIR|MED                                 W/m2               
+ 19 AR5 climate diagnostics|Forcing|Tropospheric Ozone|FAIR|MED                        W/m2               
+ 20 AR5 climate diagnostics|Forcing|Tropospheric Ozone|MAGICC6|MED                     W/m2               
+ 21 AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|FAIR             -                  
+ 22 AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6          -                  
+ 23 AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|FAIR             -                  
+ 24 AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6          -                  
+ 25 AR5 climate diagnostics|Temperature|Exceedance Probability|2.0 °C|FAIR             -                  
+ 26 AR5 climate diagnostics|Temperature|Exceedance Probability|2.0 °C|MAGICC6          -                  
+ 27 AR5 climate diagnostics|Temperature|Exceedance Probability|2.5 °C|FAIR             -                  
+ 28 AR5 climate diagnostics|Temperature|Exceedance Probability|2.5 °C|MAGICC6          -                  
+ 29 AR5 climate diagnostics|Temperature|Exceedance Probability|3.0 °C|FAIR             -                  
+ 30 AR5 climate diagnostics|Temperature|Exceedance Probability|3.0 °C|MAGICC6          -                  
+ 31 AR5 climate diagnostics|Temperature|Exceedance Probability|3.5 °C|FAIR             -                  
+ 32 AR5 climate diagnostics|Temperature|Exceedance Probability|3.5 °C|MAGICC6          -                  
+ 33 AR5 climate diagnostics|Temperature|Exceedance Probability|4.0 °C|FAIR             -                  
+ 34 AR5 climate diagnostics|Temperature|Exceedance Probability|4.0 °C|MAGICC6          -                  
+ 35 AR5 climate diagnostics|Temperature|Global Mean|FAIR|Expected value                °C                 
+ 36 AR5 climate diagnostics|Temperature|Global Mean|FAIR|Expected value|Non CO2        °C                 
+ 37 AR5 climate diagnostics|Temperature|Global Mean|FAIR|MED                           °C                 
+ 38 AR5 climate diagnostics|Temperature|Global Mean|FAIR|MED|Non CO2                   °C                 
+ 39 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P5                            °C                 
+ 40 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P5|Non CO2                    °C                 
+ 41 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P66                           °C                 
+ 42 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P66|Non CO2                   °C                 
+ 43 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P90                           °C                 
+ 44 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P90|Non CO2                   °C                 
+ 45 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P95                           °C                 
+ 46 AR5 climate diagnostics|Temperature|Global Mean|FAIR|P95|Non CO2                   °C                 
+ 47 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|Expected value             °C                 
+ 48 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|Expected value|Non CO2     °C                 
+ 49 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|MED                        °C                 
+ 50 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|P5                         °C                 
+ 51 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|P66                        °C                 
+ 52 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|P90                        °C                 
+ 53 AR5 climate diagnostics|Temperature|Global Mean|MAGICC6|P95                        °C                 
+ 54 Capacity|Electricity|Biomass                                                       GW                 
+ 55 Capacity|Electricity|Coal                                                          GW                 
+ 56 Capacity|Electricity|Gas                                                           GW                 
+ 57 Capacity|Electricity|Geothermal                                                    GW                 
+ 58 Capacity|Electricity|Hydro                                                         GW                 
+ 59 Capacity|Electricity|Nuclear                                                       GW                 
+ 60 Capacity|Electricity|Solar                                                         GW                 
+ 61 Capacity|Electricity|Solar|PV                                                      GW                 
+ 62 Capacity|Electricity|Wind                                                          GW                 
+ 63 Capacity|Electricity|Wind|Onshore                                                  GW                 
+ 64 Carbon Sequestration|CCS                                                           Mt CO2/yr          
+ 65 Carbon Sequestration|CCS|Biomass                                                   Mt CO2/yr          
+ 66 Carbon Sequestration|CCS|Biomass|Energy|Supply                                     Mt CO2/yr          
+ 67 Carbon Sequestration|CCS|Biomass|Energy|Supply|Electricity                         Mt CO2/yr          
+ 68 Carbon Sequestration|CCS|Biomass|Energy|Supply|Liquids                             Mt CO2/yr          
+ 69 Carbon Sequestration|CCS|Fossil                                                    Mt CO2/yr          
+ 70 Carbon Sequestration|CCS|Fossil|Energy|Demand|Industry                             Mt CO2/yr          
+ 71 Carbon Sequestration|CCS|Fossil|Energy|Supply                                      Mt CO2/yr          
+ 72 Carbon Sequestration|CCS|Fossil|Energy|Supply|Electricity                          Mt CO2/yr          
+ 73 Carbon Sequestration|CCS|Fossil|Energy|Supply|Liquids                              Mt CO2/yr          
+ 74 Carbon Sequestration|Land Use                                                      Mt CO2/yr          
+ 75 Concentration|CH4                                                                  ppb                
+ 76 Concentration|CO2                                                                  ppm                
+ 77 Concentration|N2O                                                                  ppb                
+ 78 Consumption                                                                        billion US$2010/yr 
+ 79 Diagnostics|MAGICC6|Harmonized Input|Emissions|BC                                  Mt BC/yr           
+ 80 Diagnostics|MAGICC6|Harmonized Input|Emissions|C2F6                                kt C2F6/yr         
+ 81 Diagnostics|MAGICC6|Harmonized Input|Emissions|C6F14                               kt C6F14/yr        
+ 82 Diagnostics|MAGICC6|Harmonized Input|Emissions|CH4                                 Mt CH4/yr          
+ 83 Diagnostics|MAGICC6|Harmonized Input|Emissions|CO                                  Mt CO/yr           
+ 84 Diagnostics|MAGICC6|Harmonized Input|Emissions|CO2|AFOLU                           Mt CO2/yr          
+ 85 Diagnostics|MAGICC6|Harmonized Input|Emissions|CO2|Energy and Industrial Processes Mt CO2/yr          
+ 86 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC125                          kt HFC23/yr        
+ 87 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC134a                         kt HFC23/yr        
+ 88 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC143a                         kt HFC23/yr        
+ 89 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC227ea                        kt HFC23/yr        
+ 90 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC23                           kt HFC23/yr        
+ 91 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC245ca                        kt HFC23/yr        
+ 92 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC32                           kt HFC23/yr        
+ 93 Diagnostics|MAGICC6|Harmonized Input|Emissions|HFC|HFC43-10                        kt HFC23/yr        
+ 94 Diagnostics|MAGICC6|Harmonized Input|Emissions|N2O                                 kt N2O/yr          
+ 95 Diagnostics|MAGICC6|Harmonized Input|Emissions|NH3                                 Mt NH3/yr          
+ 96 Diagnostics|MAGICC6|Harmonized Input|Emissions|NOx                                 Mt NO2/yr          
+ 97 Diagnostics|MAGICC6|Harmonized Input|Emissions|OC                                  Mt OC/yr           
+ 98 Diagnostics|MAGICC6|Harmonized Input|Emissions|PFC                                 kt CF4/yr          
+ 99 Diagnostics|MAGICC6|Harmonized Input|Emissions|SF6                                 kt SF6/yr          
+100 Diagnostics|MAGICC6|Harmonized Input|Emissions|Sulfur                              Mt SO2/yr          
+101 Diagnostics|MAGICC6|Harmonized Input|Emissions|VOC                                 Mt VOC/yr          
+102 Emissions|BC                                                                       Mt BC/yr           
+103 Emissions|CH4                                                                      Mt CH4/yr          
+104 Emissions|CH4|AFOLU                                                                Mt CH4/yr          
+105 Emissions|CH4|Energy|Demand|Industry                                               Mt CH4/yr          
+106 Emissions|CH4|Energy|Demand|Residential and Commercial                             Mt CH4/yr          
+107 Emissions|CH4|Energy|Demand|Transportation                                         Mt CH4/yr          
+108 Emissions|CH4|Energy|Supply                                                        Mt CH4/yr          
+109 Emissions|CO                                                                       Mt CO/yr           
+110 Emissions|CO2                                                                      Mt CO2/yr          
+111 Emissions|CO2|AFOLU                                                                Mt CO2/yr          
+112 Emissions|CO2|Energy and Industrial Processes                                      Mt CO2/yr          
+113 Emissions|CO2|Energy|Demand                                                        Mt CO2/yr          
+114 Emissions|CO2|Energy|Demand|AFOFI                                                  Mt CO2/yr          
+115 Emissions|CO2|Energy|Demand|Industry                                               Mt CO2/yr          
+116 Emissions|CO2|Energy|Demand|Residential and Commercial                             Mt CO2/yr          
+117 Emissions|CO2|Energy|Demand|Transportation                                         Mt CO2/yr          
+118 Emissions|CO2|Energy|Supply                                                        Mt CO2/yr          
+119 Emissions|CO2|Other                                                                Mt CO2/yr          
+120 Emissions|F-Gases                                                                  Mt CO2-equiv/yr    
+121 Emissions|HFC                                                                      kt HFC134a-equiv/yr
+122 Emissions|HFC|HFC125                                                               kt HFC125/yr       
+123 Emissions|HFC|HFC134a                                                              kt HFC134a/yr      
+124 Emissions|HFC|HFC143a                                                              kt HFC143a/yr      
+125 Emissions|HFC|HFC227ea                                                             kt HFC227ea/yr     
+126 Emissions|HFC|HFC23                                                                kt HFC23/yr        
+127 Emissions|HFC|HFC32                                                                kt HFC32/yr        
+128 Emissions|HFC|HFC43-10                                                             kt HFC43-10/yr     
+129 Emissions|Kyoto Gases (AR4-GWP100)                                                 Mt CO2-equiv/yr    
+130 Emissions|Kyoto Gases (AR5-GWP100)                                                 Mt CO2-equiv/yr    
+131 Emissions|Kyoto Gases (SAR-GWP100)                                                 Mt CO2-equiv/yr    
+132 Emissions|N2O                                                                      kt N2O/yr          
+133 Emissions|N2O|AFOLU                                                                kt N2O/yr          
+134 Emissions|NH3                                                                      Mt NH3/yr          
+135 Emissions|NOx                                                                      Mt NO2/yr          
+136 Emissions|OC                                                                       Mt OC/yr           
+137 Emissions|PFC                                                                      kt CF4-equiv/yr    
+138 Emissions|SF6                                                                      kt SF6/yr          
+139 Emissions|Sulfur                                                                   Mt SO2/yr          
+140 Emissions|VOC                                                                      Mt VOC/yr          
+141 Final Energy                                                                       EJ/yr              
+142 Final Energy|Electricity                                                           EJ/yr              
+143 Final Energy|Gases                                                                 EJ/yr              
+144 Final Energy|Heat                                                                  EJ/yr              
+145 Final Energy|Industry|Electricity                                                  EJ/yr              
+146 Final Energy|Industry|Gases                                                        EJ/yr              
+147 Final Energy|Industry|Heat                                                         EJ/yr              
+148 Final Energy|Industry|Liquids                                                      EJ/yr              
+149 Final Energy|Industry|Solids                                                       EJ/yr              
+150 Final Energy|Liquids                                                               EJ/yr              
+151 Final Energy|Residential and Commercial                                            EJ/yr              
+152 Final Energy|Residential and Commercial|Heat                                       EJ/yr              
+153 Final Energy|Solids                                                                EJ/yr              
+154 Final Energy|Solids|Biomass                                                        EJ/yr              
+155 Final Energy|Solids|Coal                                                           EJ/yr              
+156 Final Energy|Transportation                                                        EJ/yr              
+157 Final Energy|Transportation|Electricity                                            EJ/yr              
+158 Final Energy|Transportation|Liquids|Biomass                                        EJ/yr              
+159 Final Energy|Transportation|Liquids|Oil                                            EJ/yr              
+160 Forcing                                                                            W/m2               
+161 Forcing|Aerosol                                                                    W/m2               
+162 Forcing|CH4                                                                        W/m2               
+163 Forcing|CO2                                                                        W/m2               
+164 Forcing|F-Gases                                                                    W/m2               
+165 Forcing|Kyoto Gases                                                                W/m2               
+166 Forcing|N2O                                                                        W/m2               
+167 Forcing|Tropospheric Ozone                                                         W/m2               
+168 GDP|MER                                                                            billion US$2010/yr 
+169 GDP|PPP                                                                            billion US$2010/yr 
+170 Investment|Energy Supply                                                           billion US$2010/yr 
+171 Investment|Energy Supply|Electricity                                               billion US$2010/yr 
+172 Investment|Energy Supply|Electricity|Fossil                                        billion US$2010/yr 
+173 Investment|Energy Supply|Electricity|Non-fossil                                    billion US$2010/yr 
+174 Investment|Energy Supply|Extraction|Fossil                                         billion US$2010/yr 
+175 Land Cover                                                                         million ha         
+176 Land Cover|Cropland                                                                million ha         
+177 Land Cover|Cropland|Energy Crops                                                   million ha         
+178 Land Cover|Forest                                                                  million ha         
+179 Land Cover|Other Arable Land                                                       million ha         
+180 Land Cover|Pasture                                                                 million ha         
+181 Policy Cost|Consumption Loss                                                       billion US$2010/yr 
+182 Policy Cost|GDP Loss                                                               billion US$2010/yr 
+183 Population                                                                         million            
+184 Price|Carbon                                                                       US$2010/t CO2      
+185 Price|Primary Energy|Coal                                                          US$2010/GJ         
+186 Price|Primary Energy|Gas                                                           US$2010/GJ         
+187 Price|Primary Energy|Oil                                                           US$2010/GJ         
+188 Price|Secondary Energy|Electricity                                                 US$2010/GJ         
+189 Primary Energy                                                                     EJ/yr              
+190 Primary Energy|Biomass                                                             EJ/yr              
+191 Primary Energy|Coal                                                                EJ/yr              
+192 Primary Energy|Coal|w/ CCS                                                         EJ/yr              
+193 Primary Energy|Coal|w/o CCS                                                        EJ/yr              
+194 Primary Energy|Fossil                                                              EJ/yr              
+195 Primary Energy|Fossil|w/ CCS                                                       EJ/yr              
+196 Primary Energy|Fossil|w/o CCS                                                      EJ/yr              
+197 Primary Energy|Gas                                                                 EJ/yr              
+198 Primary Energy|Gas|w/ CCS                                                          EJ/yr              
+199 Primary Energy|Gas|w/o CCS                                                         EJ/yr              
+200 Primary Energy|Non-Biomass Renewables                                              EJ/yr              
+201 Primary Energy|Nuclear                                                             EJ/yr              
+202 Primary Energy|Oil                                                                 EJ/yr              
+203 Primary Energy|Oil|w/ CCS                                                          EJ/yr              
+204 Primary Energy|Oil|w/o CCS                                                         EJ/yr              
+205 Primary Energy|Other                                                               EJ/yr              
+206 Primary Energy|Secondary Energy Trade                                              EJ/yr              
+207 Secondary Energy|Electricity                                                       EJ/yr              
+208 Secondary Energy|Electricity|Biomass                                               EJ/yr              
+209 Secondary Energy|Electricity|Biomass|w/ CCS                                        EJ/yr              
+210 Secondary Energy|Electricity|Biomass|w/o CCS                                       EJ/yr              
+211 Secondary Energy|Electricity|Coal                                                  EJ/yr              
+212 Secondary Energy|Electricity|Coal|w/ CCS                                           EJ/yr              
+213 Secondary Energy|Electricity|Coal|w/o CCS                                          EJ/yr              
+214 Secondary Energy|Electricity|Gas                                                   EJ/yr              
+215 Secondary Energy|Electricity|Gas|w/ CCS                                            EJ/yr              
+216 Secondary Energy|Electricity|Gas|w/o CCS                                           EJ/yr              
+217 Secondary Energy|Electricity|Geothermal                                            EJ/yr              
+218 Secondary Energy|Electricity|Hydro                                                 EJ/yr              
+219 Secondary Energy|Electricity|Non-Biomass Renewables                                EJ/yr              
+220 Secondary Energy|Electricity|Nuclear                                               EJ/yr              
+221 Secondary Energy|Electricity|Oil                                                   EJ/yr              
+222 Secondary Energy|Electricity|Oil|w/ CCS                                            EJ/yr              
+223 Secondary Energy|Electricity|Oil|w/o CCS                                           EJ/yr              
+224 Secondary Energy|Electricity|Solar                                                 EJ/yr              
+225 Secondary Energy|Electricity|Wind                                                  EJ/yr              
+226 Secondary Energy|Electricity|Wind|Onshore                                          EJ/yr              
+227 Secondary Energy|Gases                                                             EJ/yr              
+228 Secondary Energy|Gases|Natural Gas                                                 EJ/yr              
+229 Secondary Energy|Heat                                                              EJ/yr              
+230 Secondary Energy|Liquids                                                           EJ/yr              
+231 Secondary Energy|Liquids|Biomass                                                   EJ/yr              
+232 Secondary Energy|Liquids|Oil                                                       EJ/yr              
+233 Temperature|Global Mean                                                            °C                 
+234 Agricultural Demand                                                                million t DM/yr    
+235 Agricultural Demand|Crops|Feed                                                     million t DM/yr    
+236 Agricultural Demand|Crops|Food                                                     million t DM/yr    
+237 Agricultural Demand|Crops|Other                                                    million t DM/yr    
+238 Agricultural Demand|Livestock|Food                                                 million t DM/yr    
+239 Agricultural Demand|Livestock|Other                                                million t DM/yr    
+240 Agricultural Production                                                            million t DM/yr    
+241 Capacity|Electricity                                                               GW                 
+242 Capacity|Electricity|Oil                                                           GW                 
+243 Cumulative Capacity|Electricity|Biomass                                            GW                 
+244 Cumulative Capacity|Electricity|Biomass|w/ CCS                                     GW                 
+245 Cumulative Capacity|Electricity|Coal                                               GW                 
+246 Cumulative Capacity|Electricity|Coal|w/ CCS                                        GW                 
+247 Cumulative Capacity|Electricity|Coal|w/o CCS                                       GW                 
+248 Cumulative Capacity|Electricity|Gas                                                GW                 
+249 Cumulative Capacity|Electricity|Gas|w/ CCS                                         GW                 
+250 Cumulative Capacity|Electricity|Gas|w/o CCS                                        GW                 
+251 Cumulative Capacity|Electricity|Nuclear                                            GW                 
+252 Cumulative Capacity|Electricity|Oil                                                GW                 
+253 Cumulative Capacity|Electricity|Solar                                              GW                 
+254 Cumulative Capacity|Electricity|Solar|PV                                           GW                 
+255 Emissions|BC|AFOLU                                                                 Mt BC/yr           
+256 Emissions|BC|Energy                                                                Mt BC/yr           
+257 Emissions|BC|Energy|Demand|Industry                                                Mt BC/yr           
+258 Emissions|BC|Energy|Demand|Residential and Commercial                              Mt BC/yr           
+259 Emissions|BC|Energy|Demand|Transportation                                          Mt BC/yr           
+260 Emissions|BC|Energy|Supply                                                         Mt BC/yr           
+261 Emissions|CH4|Energy                                                               Mt CH4/yr          
+262 Emissions|CO2|Energy                                                               Mt CO2/yr          
+263 Emissions|CO2|Energy|Supply|Other Sector                                           Mt CO2/yr          
+264 Emissions|CO2|Industrial Processes                                                 Mt CO2/yr          
+265 Emissions|CO|AFOLU                                                                 Mt CO/yr           
+266 Emissions|CO|Energy                                                                Mt CO/yr           
+267 Emissions|CO|Energy|Demand|Industry                                                Mt CO/yr           
+268 Emissions|CO|Energy|Demand|Residential and Commercial                              Mt CO/yr           
+269 Emissions|CO|Energy|Demand|Transportation                                          Mt CO/yr           
+270 Emissions|CO|Energy|Supply                                                         Mt CO/yr           
+271 Emissions|Kyoto Gases                                                              Mt CO2-equiv/yr    
+272 Emissions|N2O|Energy                                                               kt N2O/yr          
+273 Emissions|N2O|Other                                                                kt N2O/yr          
+274 Emissions|NH3|AFOLU                                                                Mt NH3/yr          
+275 Emissions|NH3|Energy                                                               Mt NH3/yr          
+276 Emissions|NH3|Energy|Demand|Industry                                               Mt NH3/yr          
+277 Emissions|NH3|Energy|Demand|Residential and Commercial                             Mt NH3/yr          
+278 Emissions|NH3|Energy|Demand|Transportation                                         Mt NH3/yr          
+279 Emissions|NH3|Energy|Supply                                                        Mt NH3/yr          
+280 Emissions|NOx|AFOLU                                                                Mt NO2/yr          
+281 Emissions|NOx|Energy                                                               Mt NO2/yr          
+282 Emissions|NOx|Energy|Demand|Industry                                               Mt NO2/yr          
+283 Emissions|NOx|Energy|Demand|Residential and Commercial                             Mt NO2/yr          
+284 Emissions|NOx|Energy|Demand|Transportation                                         Mt NO2/yr          
+285 Emissions|NOx|Energy|Supply                                                        Mt NO2/yr          
+286 Emissions|OC|AFOLU                                                                 Mt OC/yr           
+287 Emissions|OC|Energy                                                                Mt OC/yr           
+288 Emissions|OC|Energy|Demand|Industry                                                Mt OC/yr           
+289 Emissions|OC|Energy|Demand|Residential and Commercial                              Mt OC/yr           
+290 Emissions|OC|Energy|Demand|Transportation                                          Mt OC/yr           
+291 Emissions|OC|Energy|Supply                                                         Mt OC/yr           
+292 Emissions|Sulfur|AFOLU                                                             Mt SO2/yr          
+293 Emissions|Sulfur|Energy                                                            Mt SO2/yr          
+294 Emissions|Sulfur|Energy|Demand|Industry                                            Mt SO2/yr          
+295 Emissions|Sulfur|Energy|Demand|Residential and Commercial                          Mt SO2/yr          
+296 Emissions|Sulfur|Energy|Demand|Transportation                                      Mt SO2/yr          
+297 Emissions|Sulfur|Energy|Supply                                                     Mt SO2/yr          
+298 Emissions|VOC|AFOLU                                                                Mt VOC/yr          
+299 Emissions|VOC|Energy                                                               Mt VOC/yr          
+300 Emissions|VOC|Energy|Demand|Industry                                               Mt VOC/yr          
+301 Emissions|VOC|Energy|Demand|Residential and Commercial                             Mt VOC/yr          
+302 Emissions|VOC|Energy|Demand|Transportation                                         Mt VOC/yr          
+303 Emissions|VOC|Energy|Supply                                                        Mt VOC/yr          
+304 Final Energy|Industry                                                              EJ/yr              
+305 Final Energy|Industry|Solids|Biomass                                               EJ/yr              
+306 Final Energy|Industry|Solids|Coal                                                  EJ/yr              
+307 Final Energy|Residential and Commercial|Electricity                                EJ/yr              
+308 Final Energy|Residential and Commercial|Gases                                      EJ/yr              
+309 Final Energy|Residential and Commercial|Liquids                                    EJ/yr              
+310 Final Energy|Residential and Commercial|Solids                                     EJ/yr              
+311 Final Energy|Residential and Commercial|Solids|Biomass                             EJ/yr              
+312 Final Energy|Residential and Commercial|Solids|Coal                                EJ/yr              
+313 Final Energy|Transportation|Gases                                                  EJ/yr              
+314 Final Energy|Transportation|Liquids                                                EJ/yr              
+315 Food Energy Supply                                                                 EJ/yr              
+316 Forcing|Aerosol|BC                                                                 W/m2               
+317 Forcing|Aerosol|OC                                                                 W/m2               
+318 Forcing|Aerosol|Other                                                              W/m2               
+319 Forcing|Aerosol|Sulfate Direct                                                     W/m2               
+320 Forcing|Other                                                                      W/m2               
+321 Investment|Energy Supply|CO2 Transport and Storage                                 billion US$2010/yr 
+322 Investment|Energy Supply|Electricity|Other                                         billion US$2010/yr 
+323 Investment|Energy Supply|Electricity|Transmission and Distribution                 billion US$2010/yr 
+324 Investment|Energy Supply|Heat                                                      billion US$2010/yr 
+325 Investment|Energy Supply|Liquids                                                   billion US$2010/yr 
+326 Land Cover|Built-up Area                                                           million ha         
+327 Land Cover|Cropland|Cereals                                                        million ha         
+328 Land Cover|Forest|Natural Forest                                                   million ha         
+329 Land Cover|Other Land                                                              million ha         
+330 Price|Agriculture|Non-Energy Crops and Livestock|Index                             Index (2010 = 1)   
+331 Price|Agriculture|Non-Energy Crops|Index                                           Index (2010 = 1)   
+332 Price|Secondary Energy|Liquids|Biomass                                             US$2010/GJ         
+333 Secondary Energy|Heat|Geothermal                                                   EJ/yr              
+334 Trade|Primary Energy|Coal|Volume                                                   EJ/yr              
+335 Trade|Primary Energy|Gas|Volume                                                    EJ/yr              
+336 Trade|Primary Energy|Oil|Volume                                                    EJ/yr              
+337 Agricultural Demand|Crops                                                          million t DM/yr    
+338 Agricultural Demand|Livestock                                                      million t DM/yr    
+339 Agricultural Production|Energy|Crops                                               million t DM/yr    
+340 Agricultural Production|Non-Energy|Crops                                           million t DM/yr    
+341 Agricultural Production|Non-Energy|Livestock                                       million t DM/yr    
+342 Emissions|CO2|Energy|Supply|Electricity                                            Mt CO2/yr          
+343 Food Demand                                                                        kcal/cap/day       
+344 Food Demand|Crops                                                                  kcal/cap/day       
+345 Food Demand|Livestock                                                              kcal/cap/day       
+346 Land Cover|Other Natural Land                                                      million ha         
+347 Price|Agriculture|Livestock|Index                                                  Index (2010 = 1)   
+348 Primary Energy|Biomass|Modern|w/ CCS                                               EJ/yr              
+349 Primary Energy|Biomass|Modern|w/o CCS                                              EJ/yr              
+350 Primary Energy|Geothermal                                                          EJ/yr              
+351 Primary Energy|Hydro                                                               EJ/yr              
+352 Primary Energy|Solar                                                               EJ/yr              
+353 Primary Energy|Wind                                                                EJ/yr              
+354 Carbon Sequestration|Land Use|Afforestation                                        Mt CO2/yr          
+355 Final Energy|Geothermal                                                            EJ/yr              
+356 Final Energy|Hydrogen                                                              EJ/yr              
+357 Final Energy|Solar                                                                 EJ/yr              
+358 Investment|Energy Efficiency                                                       billion US$2010/yr 
+359 Investment|Energy Supply|Electricity|Biomass|w/ CCS                                billion US$2010/yr 
+360 Investment|Energy Supply|Electricity|Biomass|w/o CCS                               billion US$2010/yr 
+361 Investment|Energy Supply|Electricity|Coal|w/ CCS                                   billion US$2010/yr 
+362 Investment|Energy Supply|Electricity|Coal|w/o CCS                                  billion US$2010/yr 
+363 Investment|Energy Supply|Electricity|Gas|w/ CCS                                    billion US$2010/yr 
+364 Investment|Energy Supply|Electricity|Gas|w/o CCS                                   billion US$2010/yr 
+365 Investment|Energy Supply|Electricity|Geothermal                                    billion US$2010/yr 
+366 Investment|Energy Supply|Electricity|Hydro                                         billion US$2010/yr 
+367 Investment|Energy Supply|Electricity|Non-Biomass Renewables                        billion US$2010/yr 
+368 Investment|Energy Supply|Electricity|Nuclear                                       billion US$2010/yr 
+369 Investment|Energy Supply|Electricity|Oil|w/o CCS                                   billion US$2010/yr 
+370 Investment|Energy Supply|Electricity|Solar                                         billion US$2010/yr 
+371 Investment|Energy Supply|Electricity|Wind                                          billion US$2010/yr 
+372 Investment|Energy Supply|Hydrogen|Fossil                                           billion US$2010/yr 
+373 Investment|Energy Supply|Hydrogen|Other                                            billion US$2010/yr 
+374 Price|Agriculture|Corn|Index                                                       Index (2010 = 1)   
+375 Price|Agriculture|Soybean|Index                                                    Index (2010 = 1)   
+376 Price|Agriculture|Wheat|Index                                                      Index (2010 = 1)   
+377 Final Energy|Solids|Biomass|Traditional                                            EJ/yr              
+378 Final Energy|Transportation|Freight                                                EJ/yr              
+379 Primary Energy|Biomass|Electricity                                                 EJ/yr              
+380 Primary Energy|Biomass|Electricity|w/o CCS                                         EJ/yr              
+381 Primary Energy|Biomass|Modern                                                      EJ/yr              
+382 Secondary Energy|Liquids|Biomass|w/o CCS                                           EJ/yr              
+383 Secondary Energy|Solids                                                            EJ/yr              
+384 Primary Energy|Biomass|Electricity|w/ CCS                                          EJ/yr              
+385 Secondary Energy|Liquids|Biomass|w/ CCS                                            EJ/yr              
+386 Capacity|Electricity|Other                                                         GW                 
+387 Capital Cost|Electricity|Biomass|w/ CCS                                            US$2010/kW         
+388 Capital Cost|Electricity|Biomass|w/o CCS                                           US$2010/kW         
+389 Capital Cost|Electricity|Coal|w/ CCS                                               US$2010/kW         
+390 Capital Cost|Electricity|Coal|w/o CCS                                              US$2010/kW         
+391 Capital Cost|Electricity|Gas|w/ CCS                                                US$2010/kW         
+392 Capital Cost|Electricity|Gas|w/o CCS                                               US$2010/kW         
+393 Capital Cost|Electricity|Geothermal                                                US$2010/kW         
+394 Capital Cost|Electricity|Hydro                                                     US$2010/kW         
+395 Capital Cost|Electricity|Nuclear                                                   US$2010/kW         
+396 Capital Cost|Electricity|Solar|PV                                                  US$2010/kW         
+397 Capital Cost|Electricity|Wind|Onshore                                              US$2010/kW         
+398 Carbon Sequestration|CCS|Biomass|Energy                                            Mt CO2/yr          
+399 Carbon Sequestration|CCS|Fossil|Energy                                             Mt CO2/yr          
+400 Carbon Sequestration|CCS|Fossil|Industrial Processes                               Mt CO2/yr          
+401 Cumulative Capacity|Electricity|Biomass|w/o CCS                                    GW                 
+402 Cumulative Capacity|Electricity|Geothermal                                         GW                 
+403 Cumulative Capacity|Electricity|Hydro                                              GW                 
+404 Cumulative Capacity|Electricity|Other                                              GW                 
+405 Cumulative Capacity|Electricity|Wind|Onshore                                       GW                 
+406 Emissions|HFC|HFC245fa                                                             kt HFC245fa/yr     
+407 Final Energy|Non-Energy Use                                                        EJ/yr              
+408 Final Energy|Non-Energy Use|Gas                                                    EJ/yr              
+409 Final Energy|Non-Energy Use|Oil                                                    EJ/yr              
+410 Food Energy Supply|Livestock                                                       EJ/yr              
+411 Forcing|Aerosol|Black and Organic Carbon                                           W/m2               
+412 Forcing|Aerosol|Cloud Indirect                                                     W/m2               
+413 Investment|Energy Supply|Electricity|Biomass                                       billion US$2010/yr 
+414 Investment|Energy Supply|Electricity|Coal                                          billion US$2010/yr 
+415 Investment|Energy Supply|Electricity|Electricity Storage                           billion US$2010/yr 
+416 Investment|Energy Supply|Electricity|Gas                                           billion US$2010/yr 
+417 Investment|Energy Supply|Electricity|Oil                                           billion US$2010/yr 
+418 Investment|Energy Supply|Electricity|Oil|w/ CCS                                    billion US$2010/yr 
+419 Investment|Energy Supply|Extraction|Coal                                           billion US$2010/yr 
+420 Investment|Energy Supply|Extraction|Gas                                            billion US$2010/yr 
+421 Investment|Energy Supply|Extraction|Oil                                            billion US$2010/yr 
+422 Investment|Energy Supply|Liquids|Biomass                                           billion US$2010/yr 
+423 Investment|Energy Supply|Liquids|Oil                                               billion US$2010/yr 
+424 Population|Risk of Hunger                                                          Million            
+425 Price|Final Energy|Residential|Electricity                                         US$2010/GJ         
+426 Price|Final Energy|Residential|Gases|Natural Gas                                   US$2010/GJ         
+427 Price|Final Energy|Residential|Liquids|Biomass                                     US$2010/GJ         
+428 Price|Final Energy|Residential|Liquids|Oil                                         US$2010/GJ         
+429 Price|Final Energy|Residential|Solids|Coal                                         US$2010/GJ         
+430 Price|Secondary Energy|Liquids                                                     US$2010/GJ         
+431 Primary Energy|Biomass|Traditional                                                 EJ/yr              
+432 Primary Energy|Coal|Electricity                                                    EJ/yr              
+433 Primary Energy|Coal|Electricity|w/ CCS                                             EJ/yr              
+434 Primary Energy|Coal|Electricity|w/o CCS                                            EJ/yr              
+435 Primary Energy|Gas|Electricity                                                     EJ/yr              
+436 Primary Energy|Gas|Electricity|w/ CCS                                              EJ/yr              
+437 Primary Energy|Gas|Electricity|w/o CCS                                             EJ/yr              
+438 Secondary Energy|Electricity|Solar|PV                                              EJ/yr              
+439 Trade|Primary Energy|Biomass|Volume                                                EJ/yr              
+440 Trade|Secondary Energy|Electricity|Volume                                          EJ/yr              
+441 Trade|Secondary Energy|Liquids|Biomass|Volume                                      EJ/yr              
+442 Water Consumption|Electricity                                                      km3/yr             
+443 Water Consumption|Industrial Water                                                 km3/yr             
+444 Water Withdrawal|Electricity                                                       km3/yr             
+445 Water Withdrawal|Industrial Water                                                  km3/yr             
+446 Carbon Sequestration|Direct Air Capture                                            Mt CO2/yr          
+447 Carbon Sequestration|Enhanced Weathering                                           Mt CO2/yr          
+448 Carbon Sequestration|Land Use|Biochar                                              Mt CO2/yr          
+449 Carbon Sequestration|Land Use|Soil Carbon Management                               Mt CO2/yr          
+450 Forcing|Montreal Gases                                                             W/m2               
+451 Final Energy|Transportation|Hydrogen                                               EJ/yr              
+452 Secondary Energy|Gases|Biomass                                                     EJ/yr              
+453 Secondary Energy|Gases|Coal                                                        EJ/yr              
+454 Secondary Energy|Hydrogen                                                          EJ/yr              
+455 Secondary Energy|Hydrogen|Biomass                                                  EJ/yr              
+456 Secondary Energy|Hydrogen|Biomass|w/ CCS                                           EJ/yr              
+457 Secondary Energy|Hydrogen|Biomass|w/o CCS                                          EJ/yr              
+458 Secondary Energy|Hydrogen|Electricity                                              EJ/yr              
+459 Secondary Energy|Liquids|Coal                                                      EJ/yr              
+460 Secondary Energy|Liquids|Coal|w/ CCS                                               EJ/yr              
+461 Secondary Energy|Liquids|Coal|w/o CCS                                              EJ/yr              
+462 Secondary Energy|Liquids|Gas                                                       EJ/yr              
+463 Secondary Energy|Liquids|Gas|w/ CCS                                                EJ/yr              
+464 Secondary Energy|Liquids|Gas|w/o CCS                                               EJ/yr              
+465 Capacity|Electricity|Ocean                                                         GW                 
+466 Capacity|Electricity|Solar|CSP                                                     GW                 
+467 Capacity|Electricity|Wind|Offshore                                                 GW                 
+468 Capital Cost|Electricity|Solar|CSP                                                 US$2010/kW         
+469 Capital Cost|Electricity|Wind|Offshore                                             US$2010/kW         
+470 Cumulative Capacity|Electricity|Ocean                                              GW                 
+471 Cumulative Capacity|Electricity|Solar|CSP                                          GW                 
+472 Cumulative Capacity|Electricity|Wind                                               GW                 
+473 Cumulative Capacity|Electricity|Wind|Offshore                                      GW                 
+474 Discount rate|Buildings                                                            %                  
+475 Discount rate|Economy                                                              %                  
+476 Discount rate|Electricity                                                          %                  
+477 Discount rate|Energy Supply                                                        %                  
+478 Discount rate|Industry                                                             %                  
+479 Discount rate|Mobility                                                             %                  
+480 Discount rate|Social                                                               %                  
+481 Discount rate|Transport Infrastructure                                             %                  
+482 Energy Service|Transportation|Freight                                              bn tkm/yr          
+483 Energy Service|Transportation|Freight|Navigation                                   bn tkm/yr          
+484 Energy Service|Transportation|Freight|Railways                                     bn tkm/yr          
+485 Energy Service|Transportation|Freight|Road                                         bn tkm/yr          
+486 Energy Service|Transportation|Passenger                                            bn pkm/yr          
+487 Energy Service|Transportation|Passenger|Aviation                                   bn pkm/yr          
+488 Energy Service|Transportation|Passenger|Railways                                   bn pkm/yr          
+489 Energy Service|Transportation|Passenger|Road                                       bn pkm/yr          
+490 Primary Energy|Ocean                                                               EJ/yr              
+491 Secondary Energy|Electricity|Ocean                                                 EJ/yr              
+492 Secondary Energy|Electricity|Solar|CSP                                             EJ/yr              
+493 Secondary Energy|Electricity|Wind|Offshore                                         EJ/yr              
+494 Final Energy|Industry|Hydrogen                                                     EJ/yr              
+495 Final Energy|Industry|Other                                                        EJ/yr              
+496 Final Energy|Non-Energy Use|Biomass                                                EJ/yr              
+497 Final Energy|Non-Energy Use|Coal                                                   EJ/yr              
+498 Final Energy|Residential and Commercial|Hydrogen                                   EJ/yr              
+499 Final Energy|Residential and Commercial|Other                                      EJ/yr              
+500 Population|Rural                                                                   million            
+501 Population|Urban                                                                   million            
+502 Capital Cost|Hydrogen|Biomass|w/ CCS                                               US$2010/kW         
+503 Capital Cost|Hydrogen|Biomass|w/o CCS                                              US$2010/kW         
+504 Capital Cost|Hydrogen|Coal|w/ CCS                                                  US$2010/kW         
+505 Capital Cost|Hydrogen|Coal|w/o CCS                                                 US$2010/kW         
+506 Capital Cost|Hydrogen|Electricity                                                  US$2010/kW         
+507 Capital Cost|Hydrogen|Gas|w/ CCS                                                   US$2010/kW         
+508 Capital Cost|Hydrogen|Gas|w/o CCS                                                  US$2010/kW         
+509 Carbon Sequestration|CCS|Biomass|Energy|Demand|Industry                            Mt CO2/yr          
+510 Emissions|CH4|Other                                                                Mt CH4/yr          
+511 Emissions|CO2|Energy|Demand|Other Sector                                           Mt CO2/yr          
+512 Emissions|CO2|Energy|Supply|Heat                                                   Mt CO2/yr          
+513 Emissions|CO2|Energy|Supply|Liquids                                                Mt CO2/yr          
+514 Emissions|PFC|C2F6                                                                 kt C2F6/yr         
+515 Emissions|PFC|C6F14                                                                kt C6F14/yr        
+516 Emissions|PFC|CF4                                                                  kt CF4/yr          
+517 Investment|Energy Supply|Electricity|Ocean                                         billion US$2010/yr 
+518 Investment|Energy Supply|Liquids|Coal and Gas                                      billion US$2010/yr 
+519 Population|Urban|Share                                                             %                  
+520 Carbon Sequestration|CCS|Biomass|Energy|Supply|Hydrogen                            Mt CO2/yr          
+521 Carbon Sequestration|CCS|Biomass|Energy|Supply|Other                               Mt CO2/yr          
+522 Carbon Sequestration|CCS|Fossil|Energy|Supply|Gases                                Mt CO2/yr          
+523 Carbon Sequestration|CCS|Fossil|Energy|Supply|Hydrogen                             Mt CO2/yr          
+524 Carbon Sequestration|CCS|Fossil|Energy|Supply|Other                                Mt CO2/yr          
+525 Emissions|CO2|Energy|Supply|Gases                                                  Mt CO2/yr          
+526 Emissions|CO2|Energy|Supply|Solids                                                 Mt CO2/yr          
+527 Forcing|Albedo Change and Mineral Dust                                             W/m2               
+528 Land Cover|Forest|Managed                                                          million ha         
+529 Policy Cost|Area under MAC Curve                                                   billion US$2010/yr 
+530 Value Added|Commercial                                                             billion US$2010/yr 
+531 Value Added|Industry                                                               billion US$2010/yr 
+532 Agricultural Demand|Crops|Energy                                                   million t DM/yr    
+533 Agricultural Production|Energy|Residues                                            million t DM/yr    
+534 Agricultural Production|Non-Energy                                                 million t DM/yr    
+535 Carbon Sequestration|CCS|Biomass|Industrial Processes                              Mt CO2/yr          
+536 Energy Service|Transportation|Freight|Aviation                                     bn tkm/yr          
+537 Land Cover|Cropland|Irrigated                                                      million ha         
+538 Land Cover|Forest|Afforestation and Reforestation                                  million ha         
+539 Price|Secondary Energy|Gases|Natural Gas                                           US$2010/GJ         
+540 Price|Secondary Energy|Liquids|Oil                                                 US$2010/GJ         
+541 Price|Secondary Energy|Solids|Biomass                                              US$2010/GJ         
+542 Price|Secondary Energy|Solids|Coal                                                 US$2010/GJ         
+543 Secondary Energy|Hydrogen|Fossil                                                   EJ/yr              
+544 Secondary Energy|Hydrogen|Fossil|w/ CCS                                            EJ/yr              
+545 Secondary Energy|Hydrogen|Fossil|w/o CCS                                           EJ/yr              
+546 Price|Primary Energy|Biomass                                                       US$2010/GJ         
+547 Price|Secondary Energy|Hydrogen                                                    US$2010/GJ         
+548 Agricultural Production|Energy                                                     million t DM/yr    
+549 Investment|Energy Supply|Hydrogen                                                  billion US$2010/yr 
+550 Water Consumption                                                                  km3/yr             
+551 Water Consumption|Extraction                                                       km3/yr             
+552 Water Consumption|Irrigation                                                       km3/yr             
+553 Water Withdrawal                                                                   km3/yr             
+554 Water Withdrawal|Extraction                                                        km3/yr             
+555 Water Withdrawal|Irrigation                                                        km3/yr             
+556 Carbon Sequestration|CCS|Biomass|Energy|Supply|Gases                               Mt CO2/yr          
+557 Policy Cost|Other                                                                  billion US$2010/yr 
+558 Capital Cost|Gases|Biomass|w/o CCS                                                 US$2010/kW         
+559 Capital Cost|Gases|Coal|w/o CCS                                                    US$2010/kW         
+560 Capital Cost|Liquids|Biomass|w/ CCS                                                US$2010/kW         
+561 Capital Cost|Liquids|Biomass|w/o CCS                                               US$2010/kW         
+562 Capital Cost|Liquids|Coal|w/ CCS                                                   US$2010/kW         
+563 Capital Cost|Liquids|Coal|w/o CCS                                                  US$2010/kW         
+564 Capital Cost|Liquids|Oil                                                           US$2010/kW         
+565 Emissions|BC|Other                                                                 Mt BC/yr           
+566 Emissions|NH3|Other                                                                Mt NH3/yr          
+567 Emissions|NOx|Other                                                                Mt NO2/yr          
+568 Emissions|OC|Other                                                                 Mt OC/yr           
+569 Emissions|Sulfur|Other                                                             Mt SO2/yr          
+570 Emissions|VOC|Other                                                                Mt VOC/yr          
+571 Price|Final Energy|Residential|Solids|Biomass                                      US$2010/GJ         
+572 Subsidies|Energy|Fossil                                                            billion US$2010/yr 
+573 Emissions|CO|Other                                                                 Mt CO/yr           
+574 Final Energy|Fossil                                                                EJ/yr              
+575 Final Energy|Industry|Fossil                                                       EJ/yr              
+576 Final Energy|Industry|Geothermal                                                   EJ/yr              
+577 Final Energy|Industry|Solar                                                        EJ/yr              
+578 Final Energy|Non-Energy Use|Fossil                                                 EJ/yr              
+579 Final Energy|Residential and Commercial|Fossil                                     EJ/yr              
+580 Final Energy|Residential and Commercial|Geothermal                                 EJ/yr              
+581 Final Energy|Residential and Commercial|Solar                                      EJ/yr              
+582 Final Energy|Transportation|Fossil                                                 EJ/yr              
+583 Final Energy|Transportation|Geothermal                                             EJ/yr              
+584 Final Energy|Transportation|Heat                                                   EJ/yr              
+585 Final Energy|Transportation|Solar                                                  EJ/yr              
+586 Final Energy|Transportation|Solids|Biomass                                         EJ/yr              
+587 Final Energy|Transportation|Solids|Coal                                            EJ/yr              
+588 Secondary Energy|Electricity|Fossil                                                EJ/yr              
+589 Secondary Energy|Electricity|Other                                                 EJ/yr              
+590 Policy Cost|Additional Total Energy System Cost                                    billion US$2010/yr
+```
+
+#### Sceanrios
+
+```
+  1 ADVANCE_2020_1.5C-2100                
+  2 ADVANCE_2020_Med2C                    
+  3 ADVANCE_2020_WB2C                     
+  4 ADVANCE_2030_Med2C                    
+  5 ADVANCE_2030_Price1.5C                
+  6 ADVANCE_2030_WB2C                     
+  7 ADVANCE_INDC                          
+  8 ADVANCE_NoPolicy                      
+  9 ADVANCE_Reference                     
+ 10 SFCM_SSP2_Bio_1p5Degree               
+ 11 SFCM_SSP2_Bio_2Degree                 
+ 12 SFCM_SSP2_Bio_Baseline                
+ 13 SFCM_SSP2_EEEI_1p5Degree              
+ 14 SFCM_SSP2_EEEI_2Degree                
+ 15 SFCM_SSP2_EEEI_Baseline               
+ 16 SFCM_SSP2_LifeStyle_1p5Degree         
+ 17 SFCM_SSP2_LifeStyle_2Degree           
+ 18 SFCM_SSP2_LifeStyle_Baseline          
+ 19 SFCM_SSP2_Ref_1p5Degree               
+ 20 SFCM_SSP2_Ref_2Degree                 
+ 21 SFCM_SSP2_Ref_Baseline                
+ 22 SFCM_SSP2_ST_CCS_1p5Degree            
+ 23 SFCM_SSP2_ST_CCS_2Degree              
+ 24 SFCM_SSP2_ST_CCS_Baseline             
+ 25 SFCM_SSP2_ST_bio_1p5Degree            
+ 26 SFCM_SSP2_ST_bio_2Degree              
+ 27 SFCM_SSP2_ST_bio_Baseline             
+ 28 SFCM_SSP2_ST_nuclear_1p5Degree        
+ 29 SFCM_SSP2_ST_nuclear_2Degree          
+ 30 SFCM_SSP2_ST_nuclear_Baseline         
+ 31 SFCM_SSP2_ST_solar_1p5Degree          
+ 32 SFCM_SSP2_ST_solar_2Degree            
+ 33 SFCM_SSP2_ST_solar_Baseline           
+ 34 SFCM_SSP2_ST_wind_1p5Degree           
+ 35 SFCM_SSP2_ST_wind_2Degree             
+ 36 SFCM_SSP2_ST_wind_Baseline            
+ 37 SFCM_SSP2_SupTech_1p5Degree           
+ 38 SFCM_SSP2_SupTech_2Degree             
+ 39 SFCM_SSP2_SupTech_Baseline            
+ 40 SFCM_SSP2_combined_1p5Degree          
+ 41 SFCM_SSP2_combined_2Degree            
+ 42 SFCM_SSP2_combined_Baseline           
+ 43 SSP1-19                               
+ 44 SSP1-26                               
+ 45 SSP1-34                               
+ 46 SSP1-45                               
+ 47 SSP1-Baseline                         
+ 48 SSP2-19                               
+ 49 SSP2-26                               
+ 50 SSP2-34                               
+ 51 SSP2-45                               
+ 52 SSP2-60                               
+ 53 SSP2-Baseline                         
+ 54 SSP3-34                               
+ 55 SSP3-45                               
+ 56 SSP3-60                               
+ 57 SSP3-Baseline                         
+ 58 SSP4-26                               
+ 59 SSP4-34                               
+ 60 SSP4-45                               
+ 61 SSP4-Baseline                         
+ 62 SSP5-26                               
+ 63 SSP5-34                               
+ 64 SSP5-45                               
+ 65 SSP5-60                               
+ 66 SSP5-Baseline                         
+ 67 CD-LINKS_INDCi                        
+ 68 CD-LINKS_NPi                          
+ 69 CD-LINKS_NPi2020_1000                 
+ 70 CD-LINKS_NPi2020_1600                 
+ 71 CD-LINKS_NPi2020_400                  
+ 72 CD-LINKS_NoPolicy                     
+ 73 EMF33_Baseline                        
+ 74 EMF33_Med2C_cost100                   
+ 75 EMF33_Med2C_full                      
+ 76 EMF33_Med2C_nobeccs                   
+ 77 EMF33_Med2C_nofuel                    
+ 78 EMF33_Med2C_none                      
+ 79 EMF33_WB2C_cost100                    
+ 80 EMF33_WB2C_full                       
+ 81 EMF33_tax_hi_full                     
+ 82 EMF33_tax_hi_none                     
+ 83 EMF33_tax_lo_full                     
+ 84 EMF33_tax_lo_none                     
+ 85 TERL_15D_LowCarbonTransportPolicy     
+ 86 TERL_15D_NoTransportPolicy            
+ 87 TERL_2D_LowCarbonTransportPolicy      
+ 88 TERL_2D_NoTransportPolicy             
+ 89 TERL_Baseline_LowCarbonTransportPolicy
+ 90 TERL_Baseline_NoTransportPolicy       
+ 91 Ratchet-1.5-allCDR                    
+ 92 Ratchet-1.5-limCDR                    
+ 93 Ratchet-1.5-limCDR-noOS               
+ 94 Ratchet-1.5-noCDR                     
+ 95 Ratchet-1.5-noCDR-noOS                
+ 96 Reference                             
+ 97 SSP4-60                               
+ 98 SSP5-19                               
+ 99 1.0                                   
+100 B2DS                                  
+101 Faster Transition Scenario            
+102 IMA15-AGInt                           
+103 IMA15-Def                             
+104 IMA15-Eff                             
+105 IMA15-LiStCh                          
+106 IMA15-LoNCO2                          
+107 IMA15-Pop                             
+108 IMA15-RenElec                         
+109 IMA15-TOT                             
+110 EMF33_Med2C_limbio                    
+111 EMF33_WB2C_limbio                     
+112 EMF33_WB2C_nobeccs                    
+113 EMF33_WB2C_nofuel                     
+114 BAU                                   
+115 DAC15_50                              
+116 DAC2_66                               
+117 GEA_Eff_1p5C                          
+118 GEA_Eff_1p5C_Delay2020                
+119 GEA_Eff_2C_Delay2020                  
+120 GEA_Eff_AdvNCO2_1p5C                  
+121 GEA_Eff_base                          
+122 GEA_Mix_1p5C_AdvNCO2_PartialDelay2020 
+123 GEA_Mix_1p5C_AdvTrans_PartialDelay2020
+124 GEA_Mix_2C_AdvNCO2_PartialDelay2020   
+125 GEA_Mix_2C_AdvTrans_PartialDelay2020  
+126 GEA_Mix_base                          
+127 EMF33_1.5C_cost100                    
+128 EMF33_1.5C_full                       
+129 LowEnergyDemand                       
+130 ADVANCE_2030_1.5C-2100                
+131 EMF33_1.5C_limbio                     
+132 EMF33_1.5C_nofuel                     
+133 EMF33_WB2C_none                       
+134 EMC_Def_100$                          
+135 EMC_Def_30$                           
+136 EMC_LimSW_100$                        
+137 EMC_LimSW_30$                         
+138 EMC_NucPO_100$                        
+139 EMC_NucPO_30$                         
+140 EMC_lowEI_100$                        
+141 EMC_lowEI_30$                         
+142 CEMICS-1.5-CDR12                      
+143 CEMICS-1.5-CDR20                      
+144 CEMICS-1.5-CDR8                       
+145 CEMICS-2.0-CDR12                      
+146 CEMICS-2.0-CDR20                      
+147 CEMICS-2.0-CDR8                       
+148 CEMICS-Ref                            
+149 PEP_1p5C_full_NDC                     
+150 PEP_1p5C_full_eff                     
+151 PEP_1p5C_full_goodpractice            
+152 PEP_1p5C_full_netzero                 
+153 PEP_1p5C_red_eff                      
+154 PEP_2C_full_NDC                       
+155 PEP_2C_full_eff                       
+156 PEP_2C_full_goodpractice              
+157 PEP_2C_full_netzero                   
+158 PEP_2C_red_NDC                        
+159 PEP_2C_red_eff                        
+160 PEP_2C_red_goodpractice               
+161 PEP_2C_red_netzero                    
+162 SMP_1p5C_Def                          
+163 SMP_1p5C_Sust                         
+164 SMP_1p5C_early                        
+165 SMP_1p5C_lifesty                      
+166 SMP_1p5C_regul                        
+167 SMP_2C_Def                            
+168 SMP_2C_Sust                           
+169 SMP_2C_early                          
+170 SMP_2C_lifesty                        
+171 SMP_2C_regul                          
+172 SMP_REF_Def                           
+173 SMP_REF_Sust                          
+174 CEDS                                  
+175 IEA Energy Statistics (r2017)         
+176 Sky                                   
+177 SSP4-19   
+```
 
 ```{r eval = FALSE}
 
