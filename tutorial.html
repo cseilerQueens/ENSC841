@@ -1972,7 +1972,7 @@ default policy of comprehensive carbon pricing only</li>
 policy of comprehensive carbon pricing only</li>
 <li><code>SMP_REF_Def</code>: No-policy baseline</li>
 </ul>
-<p>You can choose different models, variasbles, and sceanrios, using the
+<p>You can choose different models, variables, and scenarios, using the
 respective names given in the boxes below. Note that not all
 combinations are possible, e.g. most scenarios are model-specific.</p>
 <p>Answers the following questions for the model
@@ -1989,7 +1989,7 @@ exceed 1.5 degrees. To answer this question, you need to replace the
 variable CO2 emissions (<code>Emissions|CO2</code>) with the probability
 that our selected scenarios will exceed our 1.5 Degrees Celsius warming
 target
-(<code>AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6</code>):</li>
+(<code>AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6</code>):</li>
 </ul>
 <div class="tutorial-exercise" data-label="IAMC15b" data-completion="1"
 data-diagnostics="1" data-startover="1" data-lines="0">
@@ -2009,7 +2009,7 @@ filter(period &lt;= 2100)
 
 mipplot_line(
 data_subset,
-variable = c(&quot;AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6&quot;),
+variable = c(&quot;AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6&quot;),
 scenario = c(&quot;SMP_1p5C_Def&quot;, &quot;SMP_2C_Def&quot;, &quot;SMP_REF_Def&quot;),
 region = c(&quot;World&quot;),
 legend = TRUE,
@@ -2026,7 +2026,7 @@ compare to Canada’s carbon tax? (variable:
 explore the role of forests (variable: <code>Land Cover|Forest</code>,
 <code>Land Cover|Forest|Natural Forest</code>)</li>
 <li>How does the energy supply changes over time (variable:
-<code>Capacity|Electric|Solar</code>)?</li>
+<code>Capacity|Electricity|Solar</code>)?</li>
 <li>How important is carbon capture and storage (variable:
 <code>Carbon Sequestration|CCS</code>)?</li>
 <li>Explore other variables that you find interesting. Recall that most
@@ -3037,17 +3037,17 @@ session$onSessionEnded(function() {
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "isotopesAndTemperature", 
     question = structure("Which statement is correct?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_b630148", 
+    "character")), answers = list(structure(list(id = "lnr_ans_6d0c7ba", 
         option = "Larger relative abundances of $^{18}$O in the air correspond to warmer global temperatures", 
         value = "Larger relative abundances of $^{18}$O in the air correspond to warmer global temperatures", 
         label = structure("Larger relative abundances of \\(^{18}\\)O in the air correspond to warmer global temperatures", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c172de7", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_c2a655a", 
         option = "Larger relative abundances of $^{16}$O in the air correspond to warmer global temperatures", 
         value = "Larger relative abundances of $^{16}$O in the air correspond to warmer global temperatures", 
         label = structure("Larger relative abundances of \\(^{16}\\)O in the air correspond to warmer global temperatures", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5165400", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_665a26b", 
         option = "Larger relative abundances of $^{18}$O in the air correspond to colder global temperatures", 
         value = "Larger relative abundances of $^{18}$O in the air correspond to colder global temperatures", 
         label = structure("Larger relative abundances of \\(^{18}\\)O in the air correspond to colder global temperatures", html = TRUE, class = c("html", 
@@ -3060,18 +3060,18 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "isotopesAndTemperature-answer", question = "isotopesAndTemperature"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = FALSE, 
-    seed = 1752088234.68412, options = list()), class = c("learnr_radio", 
+    seed = 1176930789.45195, options = list()), class = c("learnr_radio", 
 "tutorial_question")), session = session)
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "sortable_rank", label = "sortEra", question = structure("Sort the three eras by age starting with the youngest era first", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_bfae4b2", 
+"character")), answers = list(structure(list(id = "lnr_ans_7042af5", 
     option = c("Cenozoic", "Mesozoic", "Paleozoic"), value = c("Cenozoic", 
     "Mesozoic", "Paleozoic"), label = structure("Cenozoic\nMesozoic\nPaleozoic", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_cf53c6d", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_b6d78e3", 
     option = c("Paleozoic", "Mesozoic", "Cenozoic"), value = c("Paleozoic", 
     "Mesozoic", "Cenozoic"), label = structure("Paleozoic\nMesozoic\nCenozoic", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = structure("Other direction!", html = TRUE, class = c("html", 
@@ -3084,18 +3084,18 @@ learnr:::question_prerendered_chunk(structure(list(type = "sortable_rank", label
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "sortEra-answer", question = "sortEra"), loading = structure("<strong>Loading:<\u002fstrong>\nSort the three eras by age starting with the youngest era first\n<br/><br/><br/>", html = TRUE, class = c("html", 
 "character")), random_answer_order = TRUE, allow_retry = TRUE, 
-    seed = 545721757.745878, options = structure(list(), class = "sortable_options")), class = c("sortable_rank", 
+    seed = 515669483.759873, options = structure(list(), class = "sortable_options")), class = c("sortable_rank", 
 "tutorial_question")), session = session)
 </script>
  
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "icehouseVsGreenhouse", 
     question = structure("Which statement is correct?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_ba902b4", 
+    "character")), answers = list(structure(list(id = "lnr_ans_f20c5aa", 
         option = "We currently live in a greenhouse period", 
         value = "We currently live in a greenhouse period", label = structure("We currently live in a greenhouse period", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2fc62dd", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_5c841f2", 
         option = "We currently live in an icehouse period", value = "We currently live in an icehouse period", 
         label = structure("We currently live in an icehouse period", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
@@ -3107,24 +3107,24 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "icehouseVsGreenhouse-answer", question = "icehouseVsGreenhouse"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = FALSE, 
-    seed = 1228672947.42785, options = list()), class = c("learnr_radio", 
+    seed = 1057947293.50735, options = list()), class = c("learnr_radio", 
 "tutorial_question")), session = session)
 </script>
 
 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", label = "summary", question = structure("Which statement is correct? Select all that apply", html = TRUE, class = c("html", 
-"character")), answers = list(structure(list(id = "lnr_ans_5219d5f", 
+"character")), answers = list(structure(list(id = "lnr_ans_4253268", 
     option = "Current global mean temperatures exceed temperatures of the Cenozoic era", 
     value = "Current global mean temperatures exceed temperatures of the Cenozoic era", 
     label = structure("Current global mean temperatures exceed temperatures of the Cenozoic era", html = TRUE, class = c("html", 
     "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_84f78ec", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_bcee751", 
     option = "The earth has been both, much warmer and much colder than today", 
     value = "The earth has been both, much warmer and much colder than today", 
     label = structure("The earth has been both, much warmer and much colder than today", html = TRUE, class = c("html", 
     "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-"tutorial_quiz_answer")), structure(list(id = "lnr_ans_b5010c", 
+"tutorial_quiz_answer")), structure(list(id = "lnr_ans_cc37a96", 
     option = "Temperatures in the holocene have been declining for about 7,000 years until about the 1800", 
     value = "Temperatures in the holocene have been declining for about 7,000 years until about the 1800", 
     label = structure("Temperatures in the holocene have been declining for about 7,000 years until about the 1800", html = TRUE, class = c("html", 
@@ -3136,7 +3136,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_checkbox", lab
 "character")), incorrect = structure("Incorrect", html = TRUE, class = c("html", 
 "character")), message = NULL, post_message = NULL), ids = list(
     answer = "summary-answer", question = "summary"), loading = NULL, 
-    random_answer_order = FALSE, allow_retry = FALSE, seed = 970716144.047975, 
+    random_answer_order = FALSE, allow_retry = FALSE, seed = 552201220.742861, 
     options = list()), class = c("learnr_checkbox", "tutorial_question"
 )), session = session)
 </script>
@@ -3764,16 +3764,16 @@ learnr:::store_exercise_cache(structure(list(label = "powerSphere", global_setup
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "starTemperature01", 
     question = structure("What is the temperature of the star with the spectrum given by the red line?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_c5cf64e", 
+    "character")), answers = list(structure(list(id = "lnr_ans_b527e80", 
         option = "5000K", value = "5000K", label = structure("5000K", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_df4e2d2", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_2d4f7bf", 
         option = "6000K", value = "6000K", label = structure("6000K", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_da2f1db", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e15570c", 
         option = "7000K", value = "7000K", label = structure("7000K", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_f3109a5", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_387ee20", 
         option = "8000K", value = "8000K", label = structure("8000K", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
     "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -3784,7 +3784,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "starTemperature01-answer", question = "starTemperature01"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1916133646.10773, options = list()), class = c("learnr_radio", 
+    seed = 53627925.9750276, options = list()), class = c("learnr_radio", 
 "tutorial_question")), session = session)
 </script>
 
@@ -3792,16 +3792,16 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
 <script type="application/shiny-prerendered" data-context="server">
 learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label = "tstarTemperature02", 
     question = structure("What is the temperature of the star with the spectrum given by the black line?", html = TRUE, class = c("html", 
-    "character")), answers = list(structure(list(id = "lnr_ans_dce69a3", 
+    "character")), answers = list(structure(list(id = "lnr_ans_23f411e", 
         option = "5000K", value = "5000K", label = structure("5000K", html = TRUE, class = c("html", 
         "character")), correct = TRUE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_e8a1348", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_bdbe79", 
         option = "6000K", value = "6000K", label = structure("6000K", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_aafc8ac", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_6c49581", 
         option = "7000K", value = "7000K", label = structure("7000K", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
-    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_b0b2b9e", 
+    "tutorial_quiz_answer")), structure(list(id = "lnr_ans_d94e54f", 
         option = "8000K", value = "8000K", label = structure("8000K", html = TRUE, class = c("html", 
         "character")), correct = FALSE, message = NULL, type = "literal"), class = c("tutorial_question_answer", 
     "tutorial_quiz_answer"))), button_labels = list(submit = structure("<span data-i18n=\"button.questionsubmit\">Submit Answer<\u002fspan>", html = TRUE, class = c("html", 
@@ -3812,7 +3812,7 @@ learnr:::question_prerendered_chunk(structure(list(type = "learnr_radio", label 
     "character")), message = NULL, post_message = NULL), ids = list(
         answer = "tstarTemperature02-answer", question = "tstarTemperature02"), 
     loading = NULL, random_answer_order = FALSE, allow_retry = TRUE, 
-    seed = 1231486694.92654, options = list()), class = c("learnr_radio", 
+    seed = 1158613885.46048, options = list()), class = c("learnr_radio", 
 "tutorial_question")), session = session)
 </script>
  
@@ -5315,7 +5315,7 @@ learnr:::store_exercise_cache(structure(list(label = "IAMC15b", global_setup = s
 "", "source(\"daisyworld.R\")", "", "gradethis::gradethis_setup()", 
 "knitr::opts_chunk$set(echo = FALSE)", "tutorial_options(exercise.timelimit = 60)"
 ), chunk_opts = list(label = "setup", include = FALSE)), setup = NULL, 
-    chunks = list(list(label = "IAMC15b", code = "\noptions(warn=-1)\n\nrm(list = ls())\nlibrary(mipplot)\nlibrary(tidyverse)\n\nmyFile <- file.path(\"data\", \"iamc15_scenario_data_world_r2.0.xlsx\") \ndata <- read_iamc_xlsx(myFile, sheet = 2)\n\ndata_subset <- data %>%\nfilter( model %in% c(\"REMIND-MAgPIE 1.7-3.0\") ) %>%\nfilter(2000 <= period) %>%\nfilter(period <= 2100)\n\nmipplot_line(\ndata_subset,\nvariable = c(\"AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6\"),\nscenario = c(\"SMP_1p5C_Def\", \"SMP_2C_Def\", \"SMP_REF_Def\"),\nregion = c(\"World\"),\nlegend = TRUE,\naxis_year_text_angle = 0,\nlanguage = 'en')", 
+    chunks = list(list(label = "IAMC15b", code = "\noptions(warn=-1)\n\nrm(list = ls())\nlibrary(mipplot)\nlibrary(tidyverse)\n\nmyFile <- file.path(\"data\", \"iamc15_scenario_data_world_r2.0.xlsx\") \ndata <- read_iamc_xlsx(myFile, sheet = 2)\n\ndata_subset <- data %>%\nfilter( model %in% c(\"REMIND-MAgPIE 1.7-3.0\") ) %>%\nfilter(2000 <= period) %>%\nfilter(period <= 2100)\n\nmipplot_line(\ndata_subset,\nvariable = c(\"AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6\"),\nscenario = c(\"SMP_1p5C_Def\", \"SMP_2C_Def\", \"SMP_REF_Def\"),\nregion = c(\"World\"),\nlegend = TRUE,\naxis_year_text_angle = 0,\nlanguage = 'en')", 
         opts = list(label = "\"IAMC15b\"", exercise = "TRUE"), 
         engine = "r")), code_check = NULL, error_check = NULL, 
     check = NULL, solution = NULL, tests = NULL, options = list(
@@ -5342,7 +5342,7 @@ learnr:::store_exercise_cache(structure(list(label = "IAMC15b", global_setup = s
         "data <- read_iamc_xlsx(myFile, sheet = 2)", "", "data_subset <- data %>%", 
         "filter( model %in% c(\"REMIND-MAgPIE 1.7-3.0\") ) %>%", 
         "filter(2000 <= period) %>%", "filter(period <= 2100)", 
-        "", "mipplot_line(", "data_subset,", "variable = c(\"AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6\"),", 
+        "", "mipplot_line(", "data_subset,", "variable = c(\"AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6\"),", 
         "scenario = c(\"SMP_1p5C_Def\", \"SMP_2C_Def\", \"SMP_REF_Def\"),", 
         "region = c(\"World\"),", "legend = TRUE,", "axis_year_text_angle = 0,", 
         "language = 'en')"), out.width.px = 624, out.height.px = 384, 

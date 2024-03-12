@@ -78,14 +78,14 @@ The three scenarios selected above are described [here](https://iopscience.iop.o
 * ```SMP_2C_Def```: Budget of 1000Gt CO2 2011-2100 with default policy of comprehensive carbon pricing only
 * ```SMP_REF_Def```: No-policy baseline
 
-You can choose different models, variasbles, and sceanrios, using the respective names given in the boxes below. Note that not all combinations are possible, e.g. most scenarios are model-specific.
+You can choose different models, variables, and scenarios, using the respective names given in the boxes below. Note that not all combinations are possible, e.g. most scenarios are model-specific.
 
 
 Answers the following questions for the model ```REMIND-MAgPIE 1.7-3.0``` and the scenarios ```SMP_1p5C_Def```, ```SMP_2C_Def```, and ```SMP_REF_Def```. Save the images and present a short slide deck that illustrates your answers.
 
 * How do the three pathways differ? 
 * When do emissions need to become negative for reaching the 1.5 Degrees target?
-* Show the probability that global mean surface temperature will exceed 1.5 degrees. To answer this question, you need to replace the variable CO2 emissions (```Emissions|CO2```) with the probability that our selected scenarios will exceed our 1.5 Degrees Celsius warming target (```AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6```):
+* Show the probability that global mean surface temperature will exceed 1.5 degrees. To answer this question, you need to replace the variable CO2 emissions (```Emissions|CO2```) with the probability that our selected scenarios will exceed our 1.5 Degrees Celsius warming target (```AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6```):
 
 ```{r IAMC15b, exercise = TRUE}
 
@@ -105,7 +105,7 @@ filter(period <= 2100)
 
 mipplot_line(
 data_subset,
-variable = c("AR5 climate diagnostics|Temperature|Exceedance Probability|1.0 °C|MAGICC6"),
+variable = c("AR5 climate diagnostics|Temperature|Exceedance Probability|1.5 °C|MAGICC6"),
 scenario = c("SMP_1p5C_Def", "SMP_2C_Def", "SMP_REF_Def"),
 region = c("World"),
 legend = TRUE,
@@ -116,7 +116,7 @@ language = 'en')
 * What are the projections for the carbon price and how do the values compare to Canada's carbon tax? (variable: ```Price|Carbon```)
 * How does the carbon price change over time?
 * How do we generate negative emissions? To answer this question, explore the role of forests (variable: ```Land Cover|Forest```, ```Land Cover|Forest|Natural Forest```)
-* How does the energy supply changes over time (variable: ```Capacity|Electric|Solar```)?
+* How does the energy supply changes over time (variable: ```Capacity|Electricity|Solar```)?
 * How important is carbon capture and storage (variable: ```Carbon Sequestration|CCS```)?
 * Explore other variables that you find interesting. Recall that most scenarios are model-specific, and not all variables are available for all models
 
